@@ -41,7 +41,8 @@ $task=[
         'status'=>'false'
     ]
 
-];
+]
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -139,7 +140,7 @@ $task=[
                         </tr>
                         <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
                                                     <!-- my test-->
-                        <?php if ($show_complete_tasks === 1) : ?>
+                        <?php if ($show_complete_tasks == 1) : ?>
                         <tr class="tasks__item task task--completed">
                             <td class="task__select">
                                 <label class="checkbox task__checkbox">
@@ -155,8 +156,11 @@ $task=[
                         <?php endif ?>
                          <!-- my test-->
                         <!-- my test2-->
-                        <?php foreach ($task as $name => $test): ?>
-
+                        <?php foreach ($task as  $test):{
+                            if ($show_complete_tasks == 0 &&$test['status']== 'true'){
+                                continue;
+                            }}
+                            ?>
                         <tr class="tasks__item task">
                             <td class="task__select">
                                 <label class="checkbox task__checkbox">
@@ -167,7 +171,10 @@ $task=[
                             <td class="task__file">
                                 <?= $test['date_complete']  ?>
                             </td>
-                            <td class="task__date"></td>
+                            <td class="task__date">
+                                <?= $test['status']
+                                ?>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                         <!-- my test2-->
