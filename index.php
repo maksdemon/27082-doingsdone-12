@@ -41,9 +41,28 @@ $task=[
         'status'=>'false'
     ]
 
-]
+];
+//$count = 0;
+//$num_count = count($task);
+//$cat_task =$type[0];
+/*foreach($task as $key => $value){   echo  $value['category'];}*/
 
+function test_count($task,$cat_task){
+    $count2=0;
+    $count = 0;
+    $num_count = count($task);
+    while ($count<$num_count){
+        if ($cat_task==$task [$count]['category']){
+            $count2++;
+        }
+        $count++;
+        //echo $count;
+    }
+    return $count2;
+}
+//echo test_count($task,$cat_task)," test";
 ?>
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -82,13 +101,12 @@ $task=[
             <div class="content">
                 <section class="content__side">
                     <h2 class="content__side-heading">Проекты</h2>
-
                     <nav class="main-navigation">
                         <ul class="main-navigation__list">
                             <?php foreach ($type as $typ): ?>
                                 <li class="main-navigation__list-item">
                                     <a class="main-navigation__list-item-link" href="#"><?= $typ  ?></a>
-                                    <span class="main-navigation__list-item-count">0</span>
+                                    <span class="main-navigation__list-item-count"><?= test_count($task,$typ) ?></span>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
