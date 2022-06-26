@@ -106,7 +106,7 @@ function test_count($task,$cat_task){
                             <?php foreach ($type as $typ): ?>
                                 <li class="main-navigation__list-item">
                                     <a class="main-navigation__list-item-link" href="#"><?= $typ  ?></a>
-                                    <span class="main-navigation__list-item-count"><?= test_count($task,$typ) ?></span>
+                                    <span class="main-navigation__list-item-count"><?= test_count($task,$typ)  ?></span>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
