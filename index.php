@@ -46,7 +46,19 @@ $task=[
 //$num_count = count($task);
 //$cat_task =$type[0];
 /*foreach($task as $key => $value){   echo  $value['category'];}*/
+function test_count ($task,$cat_task){
+    $count=0;
+    foreach ($task as $key=>$value) {
+        if ($value ['category'] == $cat_task) {
+            $count++;
+        }
+    }
+    return $count;
 
+}
+
+
+/*
 function test_count($task,$cat_task){
     $count2=0;
     $count = 0;
@@ -59,7 +71,7 @@ function test_count($task,$cat_task){
         //echo $count;
     }
     return $count2;
-}
+}*/
 //echo test_count($task,$cat_task)," test";
 ?>
 
