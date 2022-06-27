@@ -56,8 +56,6 @@ function test_count ($task,$cat_task){
     return $count;
 
 }
-
-
 /*
 function test_count($task,$cat_task){
     $count2=0;
