@@ -48,15 +48,13 @@ $task=[
 /*foreach($task as $key => $value){   echo  $value['category'];}*/
 
 function test_count ($task,$cat_task):int{
+        $count = 0;
     foreach ($task as $key=>$value) {
         if ($value ['category'] == $cat_task) {
             $count++;
         }
-    else { $count=0;
-                     }
-        }
+    }
     return $count;
-
 }
 
 
