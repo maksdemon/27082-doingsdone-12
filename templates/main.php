@@ -2,10 +2,10 @@
     <h2 class="content__side-heading">Проекты</h2>
     <nav class="main-navigation">
         <ul class="main-navigation__list">
-            <?php foreach ($type as $typ): ?>
+            <?php foreach ($type1 as $typ): ?>
                 <li class="main-navigation__list-item">
-                    <a class="main-navigation__list-item-link" href="#"><?= $typ  ?></a>
-                    <span class="main-navigation__list-item-count"><?= test_count($task,$typ)  ?></span>
+                    <a class="main-navigation__list-item-link" href="#"><?= htmlspecialchars($typ);  ?></a>
+                    <span class="main-navigation__list-item-count"><?= test_count($task3,$typ)  ?></span>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -72,7 +72,7 @@
         <?php endif ?>
         <!-- my test-->
         <!-- my test2-->
-        <?php foreach ($task as  $test):{
+        <?php foreach ($task3 as  $test):{
             if ($show_complete_tasks == 0 &&$test['status']== 'true'){
                 continue;
             }}
@@ -81,7 +81,7 @@
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1" >
-                        <span class="checkbox__text"><?= $test['name']  ?></span>
+                        <span class="checkbox__text"><?= htmlspecialchars ($test['name']);  ?></span>
                     </label>
                 </td>
                 <td class="task__file">

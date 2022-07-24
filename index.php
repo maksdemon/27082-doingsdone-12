@@ -1,7 +1,7 @@
 <?php
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
-$type=[ "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
+$type2=[ "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
 $task=[
     [
         'name' => 'Собеседование в IT компании',
@@ -43,10 +43,13 @@ $task=[
 
 ];
 require_once ('helpers.php');
-$title=" ";
-$content = "";
-$page_content= include_template ('main.php', ['type'=>$type, 'task'=>$task, 'show_complete_tasks'=> $show_complete_tasks]);
-$layout_content =include_template ('layout.php',['content'=>$page_content, 'title'=> "Дела в порядке"]);
+$title2="Дела в порядке 0";
+$content2 = "";
+$name_user="КОнстантин";
+
+$page_content3= include_template ('main.php', ['type1'=>$type2,
+    'task3'=>$task, 'show_complete_tasks'=> $show_complete_tasks]);
+$layout_content =include_template ('layout.php',['content2'=>$page_content3, 'title1'=> $title2, 'name_user1' => $name_user]);
 
 print ($layout_content);
 
