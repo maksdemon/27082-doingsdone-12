@@ -85,7 +85,8 @@
                     </label>
                 </td>
                 <td class="task__file">
-                    <?= $test['date_complete']  ?>
+                    <?= $test = strtotime ($test['date_complete']);
+                        ?>
                 </td>
                 <td class="task__date">
                     <?= $test['status']

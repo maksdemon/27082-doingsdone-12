@@ -44,7 +44,7 @@ $task=[
 ];
 require_once ('helpers.php');
 $title2="Дела в порядке 0";
-$content2 = "";
+//$content2 = "";
 $name_user="КОнстантин";
 
 $page_content3= include_template ('main.php', ['type1'=>$type2,
