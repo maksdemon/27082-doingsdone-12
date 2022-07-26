@@ -1,5 +1,5 @@
 <?php
-//$ts = time();
+$ts = time();
 //echo ($ts);
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
