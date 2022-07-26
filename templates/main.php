@@ -71,13 +71,16 @@
             </tr>
         <?php endif ?>
         <!-- my test-->
-        <!-- my test2-->
+
+
         <?php foreach ($task3 as  $test):{
             if ($show_complete_tasks == 0 &&$test['status']== 'true'){
                 continue;
             }}
             ?>
-            <tr class="tasks__item task">
+            <tr class="tasks__item task
+
+">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1" >
@@ -85,8 +88,7 @@
                     </label>
                 </td>
                 <td class="task__file">
-                    <?= $test = strtotime ($test['date_complete']);
-                        ?>
+                    <?= $test = strtotime ($test['date_complete'])-time();  ?>
                 </td>
                 <td class="task__date">
                     <?= $test['status']
@@ -94,7 +96,7 @@
                 </td>
             </tr>
         <?php endforeach; ?>
-        <!-- my test2-->
+
 
     </table>
 </main>
