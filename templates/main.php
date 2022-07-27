@@ -57,7 +57,10 @@
         <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
         <!-- my test-->
         <?php if ($show_complete_tasks == 1) : ?>
-            <tr class="tasks__item task task--completed">
+            <tr class="tasks__item task task--completed
+                 <?php if ( $test = (strtotime ($test['date_complete'])-time())<86400): ?>
+                    task--important
+                <?php endif; ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden" type="checkbox" checked>
@@ -79,6 +82,13 @@
             }}
             ?>
             <tr class="tasks__item task
+                            <?php if ($test['status']== 'true') : ?>
+                                task--completed
+                            <?php endif ?>
+				             <?php if ( date_diff1($test['date_complete']) <=24): ?>
+                                task--important
+                            <?php endif; ?>
+
 
 ">
                 <td class="task__select">
@@ -88,10 +98,10 @@
                     </label>
                 </td>
                 <td class="task__file">
-                    <?= $test = strtotime ($test['date_complete'])-time();  ?>
+                    <?= $test['date_complete'];  ?>
                 </td>
                 <td class="task__date">
-                    <?= $test['status']
+                    <?= $test['status'];
                     ?>
                 </td>
             </tr>

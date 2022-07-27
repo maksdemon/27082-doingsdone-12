@@ -7,7 +7,7 @@ $type2=[ "Входящие", "Учеба", "Работа", "Домашние д�
 $task=[
     [
         'name' => 'Собеседование в IT компании',
-        'date_complete' => '01.12.2019',
+        'date_complete' => '30.07.2022',
         'category' => 'Работа',
         'status'=>'false'
     ],
@@ -64,6 +64,13 @@ function test_count ($task,$cat_task):int{
         }
     }
     return $count;
+};
+
+function date_diff1 ($date){
+    $ts = time();
+    $task_date_str =strtotime($date);
+    $diff =  floor(($task_date_str-$ts)/3600);
+   return $diff;
 }
 
 
