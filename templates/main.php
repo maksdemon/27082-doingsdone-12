@@ -85,7 +85,7 @@
                             <?php if ($test['status']== 'true') : ?>
                                 task--completed
                             <?php endif ?>
-				             <?php if ( date_diff1($test['date_complete']) <=24): ?>
+				             <?php if ( date_diff3($test['date_complete']) <=24): ?>
                                 task--important
                             <?php endif; ?>
 

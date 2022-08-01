@@ -7,7 +7,7 @@ $type2=[ "Входящие", "Учеба", "Работа", "Домашние д�
 $task=[
     [
         'name' => 'Собеседование в IT компании',
-        'date_complete' => '30.07.2022',
+        'date_complete' => '1.08.2022',
         'category' => 'Работа',
         'status'=>'false'
     ],
@@ -45,7 +45,7 @@ $task=[
 
 ];
 require_once ('helpers.php');
-$title2="Дела в порядке 0";
+$title2="Дела в порядке ";
 //$content2 = "";
 $name_user="КОнстантин";
 
@@ -66,12 +66,30 @@ function test_count ($task,$cat_task):int{
     return $count;
 };
 
-function date_diff1 ($date){
+// тестовая йункция подсчета
+function date_diff3 ($date){
     $ts = time();
     $task_date_str =strtotime($date);
     $diff =  floor(($task_date_str-$ts)/3600);
-   return $diff;
+    return $diff;
 }
+/* ошибка
+$date_now = date_create('now');
+$date_task = date_create($task['date_complete']);
+$date_diff1 = date_diff($date_task,$date_now);
+$date_diff2 = date_format('%a ');
+*/
+/*
+function date_diff3 ($date){
+    $datetime1 = date_create('now');
+    $date2 = date_create($date);
+    $interval = date_diff($datetime1, $date2);
+    $interval->format('%a');
+    $interval2=(int)$interval;
+    return $interval2;
+}
+*/
+
 
 
 /*
