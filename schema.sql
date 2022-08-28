@@ -14,8 +14,9 @@ CREATE TABLE `users` (
 
 CREATE TABLE `project` (
                          `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                         `title` varchar(255) NOT NULL UNIQUE,
+                         `title` varchar(255) NOT NULL,
                          `id_user` INT(255) NOT NULL
+
 );
 
 CREATE TABLE `task` (
@@ -26,13 +27,15 @@ CREATE TABLE `task` (
                       `user` INT(255) NOT NULL,
                       `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                       `STATUS` BOOLEAN NOT NULL DEFAULT '0',
-                      'project_id' INT NOT NULL,
-                      'file' CHAR(255)
+                      `project_id` INT NOT NULL,
+                      `file` varchar(255)
 
 
 );
 
-
+CREATE INDEX search_by_name on `users` (name);
+CREATE INDEX search_by_project on `project` (title);
+CREATE INDEX search_by_task on `task` (name);
 
 
 
