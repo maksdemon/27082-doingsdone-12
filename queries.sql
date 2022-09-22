@@ -51,3 +51,8 @@ UPDATE task SET STATUS = 1 WHERE name = "игры";
 */
 UPDATE task SET name = "home"
 WHERE id = 3;
+
+/*
+сведение таблиц
+*/
+SELECT * FROM users inner JOIN task ON users.id_user=task.user;
