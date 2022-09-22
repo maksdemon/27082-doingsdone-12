@@ -23,7 +23,7 @@ CREATE TABLE `task` (
                       `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                       `name` varchar(255) NOT NULL,
                       `deadline` TIMESTAMP NULL,
-                      `category` varchar(255) NOT NULL,
+                      `category` varchar(255) ,
                       `user` INT(255) NOT NULL,
                       `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                       `STATUS` BOOLEAN NOT NULL DEFAULT '0',
