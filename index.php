@@ -73,6 +73,42 @@ function date_diff3 ($date){
     $diff =  floor(($task_date_str-$ts)/3600);
     return $diff;
 }
+
+
+
+
+$con = mysqli_connect("localhost", "root", "", "doingsdone_db");
+mysqli_set_charset($con, "utf8");
+if ($con == false) {
+    print("Ошибка подключения: " . mysqli_connect_error());
+} else {
+    print("Соединение установлено");
+    // выполнение запросов
+}
+$projectuser = "SELECT title FROM project where id_user=2";
+$taskuser ="SELECT name FROM task WHERE USER=2";
+$result = mysqli_query($con, $sql);
+
+$test = mysqli_fetch_all($result, MYSQLI_ASSOC);
+//echo $test;
+echo "<pre>";
+print_r($test);
+echo "</pre>";
+
+foreach ($test as $row) {
+    print(" Категория: " . $row['title']);
+}
+
+
+
+
+/* пример обработки ошибки
+if (!$result) {
+    $error = mysqli_error($con);
+    print("Ошибка MySQL: " . $error);
+}
+*/
+
 /* ошибка
 $date_now = date_create('now');
 $date_task = date_create($task['date_complete']);
