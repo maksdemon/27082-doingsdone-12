@@ -44,29 +44,69 @@ $task=[
     ]
 
 ];
+//подключение к базе данных, вывод ошибки
+$con = mysqli_connect("localhost", "root", "", "doingsdone_db");
+mysqli_set_charset($con, "utf8");
+if ($con == false) {
+    print("Ошибка подключения: " . mysqli_connect_error());
+} else {
+    print("Соединение установлено");
+    // выполнение запросов
+}
+
+
+$projectuser = "SELECT title FROM project where id_user=2";
+$taskuser ="SELECT name FROM task WHERE USER=2";
+// список задач с группами
+$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2";
+$result = mysqli_query($con, $projectuser);
+$result_sql_task=mysqli_query($con, $task_usersql);
+//echo $result;
+// список задач простым массивом из ассотиативного
+$task_sql = array_column ((mysqli_fetch_all($result, MYSQLI_ASSOC)),"title");
+$task_count = mysqli_fetch_all($result_sql_task, MYSQLI_ASSOC);
+//echo $test;
+echo "<pre>";
+print_r($task_count);
+echo "</pre>";
+/*
+foreach ($test as $row) {
+    print(" Категория: " . $row['title']);
+}
+*/
+
+
 require_once ('helpers.php');
 $title2="Дела в порядке ";
 //$content2 = "";
 $name_user="КОнстантин";
-
-$page_content3= include_template ('main.php', ['type1'=>$type2,
-    'task3'=>$task, 'show_complete_tasks'=> $show_complete_tasks]);
-$layout_content =include_template ('layout.php',['content2'=>$page_content3, 'title1'=> $title2, 'name_user1' => $name_user]);
+//вариант вывод ключей из массива $test,"title")
+$page_content3= include_template ('main.php', [
+   // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
+    'type1'=> $task_sql,
+    'task3'=>$task_count,
+    'show_complete_tasks'=> $show_complete_tasks]);
+$layout_content =include_template ('layout.php',
+    ['content2'=>$page_content3,
+        'title1'=> $title2,
+        'name_user1' => $name_user]);
 
 print ($layout_content);
 
-
-function test_count ($task,$cat_task):int{
+//подсчет количества задач
+function test_count ( $task_count , $cat_task):int{
         $count = 0;
-    foreach ($task as $key=>$value) {
-        if ($value ['category'] == $cat_task) {
+    foreach ($task_count  as $value) {
+        if ($value ['title'] == $cat_task) {
             $count++;
         }
     }
     return $count;
 };
+//echo $test_count ."111";
 
-// тестовая йункция подсчета
+
+// тестовая йункция подсчета оставвшегося времени
 function date_diff3 ($date){
     $ts = time();
     $task_date_str =strtotime($date);
@@ -77,29 +117,10 @@ function date_diff3 ($date){
 
 
 
-$con = mysqli_connect("localhost", "root", "", "doingsdone_db");
-mysqli_set_charset($con, "utf8");
-if ($con == false) {
-    print("Ошибка подключения: " . mysqli_connect_error());
-} else {
-    print("Соединение установлено");
-    // выполнение запросов
-}
-$projectuser = "SELECT title FROM project where id_user=2";
-$taskuser ="SELECT name FROM task WHERE USER=2";
-$result = mysqli_query($con, $sql);
 
-$test = mysqli_fetch_all($result, MYSQLI_ASSOC);
-//echo $test;
-echo "<pre>";
-print_r($test);
-echo "</pre>";
+//список задач
 
-foreach ($test as $row) {
-    print(" Категория: " . $row['title']);
-}
-
-
+$projects=[];
 
 
 /* пример обработки ошибки
