@@ -55,20 +55,48 @@ if ($con == false) {
 }
 
 
-$projectuser = "SELECT title FROM project where id_user=2";
-$taskuser ="SELECT name FROM task WHERE USER=2";
+$projectuser = "SELECT title FROM project where id_user=1";
+$taskuser ="SELECT name FROM task WHERE USER=1";
+$name_nick="SELECT * FROM  users WHERE id_user=1";
 // список задач с группами
-$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2";
+$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=1";
 $result = mysqli_query($con, $projectuser);
-$result_sql_task=mysqli_query($con, $task_usersql);
+$result_sql_task= mysqli_query($con, $task_usersql);
+$result_name_nick = mysqli_query($con, $name_nick);
+
 //echo $result;
 // список задач простым массивом из ассотиативного
 $task_sql = array_column ((mysqli_fetch_all($result, MYSQLI_ASSOC)),"title");
+
+//print_r ($task_sql);
+
 $task_count = mysqli_fetch_all($result_sql_task, MYSQLI_ASSOC);
+//print_r( $task_count);
+//ник пользователя
+
+//$result_name_nick1 =mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC);
+
+$result_name_nick3 = array_column ((mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC)),"name");
+//print_r ($result_name_nick1);
+
+//print_r ($result_name_nick1);
+/*echo "<pre>";
+print_r ($result_name_nick3);
+echo "</pre>";
+*/
+//echo $result_name_nick2;
+/*
+$result_name_nick2  = array_column ((mysqli_fetch_all($result_name_nick1, MYSQLI_ASSOC)),"name");
+echo "<pre>";
+print_r( $result_name_nick2);
+echo "</pre>";
+*/
 //echo $test;
+/*
 echo "<pre>";
 print_r($task_count);
 echo "</pre>";
+*/
 /*
 foreach ($test as $row) {
     print(" Категория: " . $row['title']);
@@ -79,7 +107,9 @@ foreach ($test as $row) {
 require_once ('helpers.php');
 $title2="Дела в порядке ";
 //$content2 = "";
-$name_user="КОнстантин";
+//$name_user= "КОнстантин";
+$name_user= [$result_name_nick3];
+$user_task=[];
 //вариант вывод ключей из массива $test,"title")
 $page_content3= include_template ('main.php', [
    // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
@@ -89,7 +119,8 @@ $page_content3= include_template ('main.php', [
 $layout_content =include_template ('layout.php',
     ['content2'=>$page_content3,
         'title1'=> $title2,
-        'name_user1' => $name_user]);
+        'name_user1' => $result_name_nick3
+    ]);
 
 print ($layout_content);
 
