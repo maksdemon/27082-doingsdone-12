@@ -50,16 +50,16 @@ mysqli_set_charset($con, "utf8");
 if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
 } else {
-   // print("Соединение установлено");
+    print("Соединение установлено");
     // выполнение запросов
 }
 
 
-$projectuser = "SELECT title FROM project where id_user=1";
-$taskuser ="SELECT name FROM task WHERE USER=1";
-$name_nick="SELECT * FROM  users WHERE id_user=1";
+$projectuser = "SELECT title FROM project where id_user=2";
+$taskuser ="SELECT name FROM task WHERE USER=2";
+$name_nick="SELECT * FROM  users WHERE id_user=2";
 // список задач с группами
-$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=1";
+$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2";
 $result = mysqli_query($con, $projectuser);
 $result_sql_task= mysqli_query($con, $task_usersql);
 $result_name_nick = mysqli_query($con, $name_nick);
