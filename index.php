@@ -4,46 +4,7 @@ $ts = time();
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 $type2=[ "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
-$task=[
-    [
-        'name' => 'Собеседование в IT компании',
-        'date_complete' => '18.08.2022',
-        'category' => 'Работа',
-        'status'=>'false'
-    ],
-    [
-        'name' => 'Выполнить тестовое задание',
-        'date_complete' => '25.12.2019',
-        'category' => 'Работа',
-        'status'=>'false'
-    ],
 
-    [
-        'name' => 'Сделать задание первого раздела',
-        'date_complete' => '21.12.2019',
-        'category' => 'Учеба',
-        'status'=>'true'
-    ],
-    [
-        'name' => 'Встреча с другом',
-        'date_complete' => '22.12.2019',
-        'category' => 'Входящие',
-        'status'=>'false'
-    ],
-    [
-        'name' => 'Купить корм для кота	',
-        'date_complete' => 'null',
-        'category' => 'Домашние дела',
-        'status'=>'false'
-    ],
-    [
-        'name' => 'Заказать пиццу',
-        'date_complete' => 'null',
-        'category' => 'Домашние дела',
-        'status'=>'false'
-    ]
-
-];
 //подключение к базе данных, вывод ошибки
 $con = mysqli_connect("localhost", "root", "", "doingsdone_db");
 mysqli_set_charset($con, "utf8");
@@ -52,69 +13,90 @@ if ($con == false) {
 } else {
     print("Соединение установлено");
     // выполнение запросов
+
+
+
+
+
 }
+//тестовый поиск id (ПОСЛЕ ИНДЕКС PHP ВЫВОДИТ ЧТО ВВЕЛИ)
+$cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+echo "T".$cat_task_id."ЕУЧЕ";
 
 
-$projectuser = "SELECT title FROM project where id_user=2";
+$projectuser = "SELECT * FROM project where id_user=2";
+$projectuser1 = "SELECT * FROM project where id_user=2";
 $taskuser ="SELECT name FROM task WHERE USER=2";
 $name_nick="SELECT * FROM  users WHERE id_user=2";
 // список задач с группами
-$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2";
+$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=$cat_task_id ";
+//oll
+$task_usersql_oll="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 ";
+$result1_oll = mysqli_query($con, $task_usersql_oll);
+$task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
+/*
+echo "<pre>";
+print_r ($task_count_oll);
+echo "</pre>";
+*/
 $result = mysqli_query($con, $projectuser);
+//$result1 = mysqli_query($con, $task_usersql);
 $result_sql_task= mysqli_query($con, $task_usersql);
 $result_name_nick = mysqli_query($con, $name_nick);
-
-//echo $result;
+$sql_task_user= 'SELECT name FROM task WHERE `user`=2';
+$result_sql_user= mysqli_query($con, $sql_task_user);
+//пачка для выводу нужного проекта
+$sort_project="SELECT * FROM task WHERE USER=2 AND project_id=$cat_task_id";
+//вывод по запросу
+$sort_project_vivod=mysqli_query($con, $sort_project);
+//itog for work
+$task_sql_current = mysqli_fetch_all($sort_project_vivod, MYSQLI_ASSOC);
+/*
+echo "<pre>";
+print_r ($task_sql_current);
+echo "</pre>";
+*/
 // список задач простым массивом из ассотиативного
-$task_sql = array_column ((mysqli_fetch_all($result, MYSQLI_ASSOC)),"title");
+//$task_sql = array_column ((mysqli_fetch_all($result, MYSQLI_ASSOC)),"title");
 
-//print_r ($task_sql);
+$task_sql2 = mysqli_fetch_all($result, MYSQLI_ASSOC);
+//print_r ($task_sql2);
+//$task_sql_project_id = array_column ((mysqli_fetch_all($result1, MYSQLI_ASSOC)),"id");
+//print_r ($task_sql_project_id);
 
-$task_count = mysqli_fetch_all($result_sql_task, MYSQLI_ASSOC);
-//print_r( $task_count);
+//$task_count = mysqli_fetch_all($task_sql_oll1 , MYSQLI_ASSOC);
+//в актуальном разрезе
+$task_count1 = mysqli_fetch_all($result_sql_task , MYSQLI_ASSOC);
+/*echo "<pre>";
+print_r( $task_count."test");
+echo "</pre>";
+*/
 //ник пользователя
+
+
 
 //$result_name_nick1 =mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC);
 
 $result_name_nick3 = array_column ((mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC)),"name");
-//print_r ($result_name_nick1);
-
-//print_r ($result_name_nick1);
-/*echo "<pre>";
-print_r ($result_name_nick3);
-echo "</pre>";
-*/
-//echo $result_name_nick2;
-/*
-$result_name_nick2  = array_column ((mysqli_fetch_all($result_name_nick1, MYSQLI_ASSOC)),"name");
-echo "<pre>";
-print_r( $result_name_nick2);
-echo "</pre>";
-*/
-//echo $test;
-/*
-echo "<pre>";
-print_r($task_count);
-echo "</pre>";
-*/
-/*
-foreach ($test as $row) {
-    print(" Категория: " . $row['title']);
-}
-*/
 
 
 require_once ('helpers.php');
 $title2="Дела в порядке ";
 //$content2 = "";
 //$name_user= "КОнстантин";
-$name_user= [$result_name_nick3];
+$name_user= $result_name_nick3;
 $user_task=[];
 //вариант вывод ключей из массива $test,"title")
 $page_content3= include_template ('main.php', [
    // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
-    'type1'=> $task_sql,
-    'task3'=>$task_count,
+    'type_project'=> $task_sql2,
+  //  'link_project'=>$task_sql_project_id,
+      'task_c_name'=>$task_count1 ,
+    //'task_c_name2'=>$task_count,
+    'task_count_oll1' =>$task_count_oll ,
+    //  print_r($task_count1),
+
+  //  'get_id'=> ,
     'show_complete_tasks'=> $show_complete_tasks]);
 $layout_content =include_template ('layout.php',
     ['content2'=>$page_content3,
@@ -125,9 +107,9 @@ $layout_content =include_template ('layout.php',
 print ($layout_content);
 
 //подсчет количества задач
-function test_count ( $task_count , $cat_task):int{
+function test_count ( $task_count_oll1 , $cat_task):int{
         $count = 0;
-    foreach ($task_count  as $value) {
+    foreach ($task_count_oll1  as $value) {
         if ($value ['title'] == $cat_task) {
             $count++;
         }
@@ -144,6 +126,29 @@ function date_diff3 ($date){
     $diff =  floor(($task_date_str-$ts)/3600);
     return $diff;
 }
+/*
+$checker_get_params = 0;
+foreach ($task_sql as $arr => $elem) {
+    if($elem['id'] == $get_param_project_id){
+        $checker_get_params++;
+    };
+};
+*/
+
+// Получаем массив задач, если есть get-параметр,
+// то модифицируем запрос sql c условием, где project_id = get-параметру
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -180,26 +185,7 @@ function date_diff3 ($date){
 
 
 
-/*
- //$count = 0;
-//$num_count = count($task);
-//$cat_task =$type[0];
 
-/*foreach($task as $key => $value){   echo  $value['category'];}
-function test_count($task,$cat_task){
-    $count2=0;
-    $count = 0;
-    $num_count = count($task);
-    while ($count<$num_count){
-        if ($cat_task==$task [$count]['category']){
-            $count2++;
-        }
-        $count++;
-        //echo $count;
-    }
-    return $count2;
-}*/
-//echo test_count($task,$cat_task)," test";
 
 
 

@@ -2,10 +2,10 @@
     <h2 class="content__side-heading">Проекты</h2>
     <nav class="main-navigation">
         <ul class="main-navigation__list">
-            <?php foreach ($type1 as $typ): ?>
+            <?php foreach ($type_project as $typ): ?>
                 <li class="main-navigation__list-item">
-                    <a class="main-navigation__list-item-link" href="#"><?= htmlspecialchars($typ);  ?></a>
-                    <span class="main-navigation__list-item-count"><?= test_count($task3,$typ)  ?></span>
+                    <a class="main-navigation__list-item-link" href="/index.php?id=<?= $typ['id']; ?>"><?= htmlspecialchars($typ['title']);  ?></a>
+                    <span class="main-navigation__list-item-count"><?= test_count( $task_count_oll1,$typ['title'])  ?></span>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -58,7 +58,7 @@
         <!-- my test-->
         <?php if ($show_complete_tasks == 1) : ?>
             <tr class="tasks__item task task--completed
-                 <?php if ( $test = (strtotime ($test['date_complete'])-time())<86400): ?>
+                 <?php if ( $test = (strtotime ($test['deadline'])-time())<86400): ?>
                     task--important
                 <?php endif; ?>">
                 <td class="task__select">
@@ -73,23 +73,24 @@
                 </td>
             </tr>
         <?php endif ?>
-        <!-- my test-->
+        <!-- my test/*
 
+        -->
 
-        <?php foreach ($task3 as  $test):{
-            if ($show_complete_tasks == 0 &&$test['status']== 'true'){
+        <!--  //вывод самого списка задач-->
+        <?php foreach ($task_c_name as  $test):{
+            if ($show_complete_tasks == 0 && $test['status']== 'false'){
                 continue;
             }}
+
             ?>
             <tr class="tasks__item task
                             <?php if ($test['status']== 'true') : ?>
                                 task--completed
                             <?php endif ?>
-				             <?php if ( date_diff3($test['date_complete']) <=24): ?>
+				             <?php if ( date_diff3($test['deadline']) <=24): ?>
                                 task--important
                             <?php endif; ?>
-
-
 ">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
@@ -98,11 +99,13 @@
                     </label>
                 </td>
                 <td class="task__file">
-                    <?= $test['date_complete'];  ?>
+
                 </td>
                 <td class="task__date">
-                    <?= $test['status'];
+                    <?=
+                    date("d.m.Y", strtotime($test["deadline"]));
                     ?>
+
                 </td>
             </tr>
         <?php endforeach; ?>

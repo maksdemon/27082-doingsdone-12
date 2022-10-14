@@ -66,7 +66,7 @@ INSERT INTO users (`name`,`email`,`password`,id_user,`data`) VALUES
 
 SELECT title FROM project WHERE `id_user`=1;
 
-SELECT * FROM task;
+SELECT * FROM task WHERE USER=1;
 
 UPDATE task SET STATUS = 1 WHERE NAME = "игры";
 
