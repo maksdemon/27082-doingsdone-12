@@ -3,8 +3,13 @@
     <nav class="main-navigation">
         <ul class="main-navigation__list">
             <?php foreach ($type_project as $typ): ?>
-                <li class="main-navigation__list-item">
-                    <a class="main-navigation__list-item-link" href="/index.php?id=<?= $typ['id']; ?>"><?= htmlspecialchars($typ['title']);  ?></a>
+                <li class="main-navigation__list-item
+                    <?php if (isset($typ["id"]) && intval($typ["id"]) === intval($_GET["id"])): ?>
+                        main-navigation__list-item--active
+                    <?php endif; ?>">
+
+
+                    <a class="main-navigation__list-item-link" href="/?id=<?= $typ['id']; ?>"><?= htmlspecialchars($typ['title']);  ?></a>
                     <span class="main-navigation__list-item-count"><?= test_count( $task_count_oll1,$typ['title'])  ?></span>
                 </li>
             <?php endforeach; ?>
@@ -56,7 +61,7 @@
          </tr>-->
         <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
         <!-- my test-->
-        <?php if ($show_complete_tasks == 1) : ?>
+        <!--<?php if ($show_complete_tasks == 1) : ?>
             <tr class="tasks__item task task--completed
                  <?php if ( $test = (strtotime ($test['deadline'])-time())<86400): ?>
                     task--important
@@ -72,7 +77,7 @@
                 <td class="task__controls">
                 </td>
             </tr>
-        <?php endif ?>
+        <?php endif ?>-->
         <!-- my test/*
 
         -->
@@ -81,7 +86,11 @@
         <?php foreach ($task_c_name as  $test):{
             if ($show_complete_tasks == 0 && $test['status']== 'false'){
                 continue;
-            }}
+            }
+            else{
+
+            }
+        }
 
             ?>
             <tr class="tasks__item task

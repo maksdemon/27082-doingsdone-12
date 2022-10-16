@@ -11,7 +11,7 @@ mysqli_set_charset($con, "utf8");
 if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
 } else {
-    print("Соединение установлено");
+  //  print("Соединение установлено");
     // выполнение запросов
 
 
@@ -21,7 +21,12 @@ if ($con == false) {
 }
 //тестовый поиск id (ПОСЛЕ ИНДЕКС PHP ВЫВОДИТ ЧТО ВВЕЛИ)
 $cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-echo "T".$cat_task_id."ЕУЧЕ";
+//echo "T".$cat_task_id."ЕУЧЕ";
+if(isset($cat_task_id ))
+    $cat_task_id;
+else
+    $task_usersql_oll;
+
 
 
 $projectuser = "SELECT * FROM project where id_user=2";
@@ -34,11 +39,9 @@ $task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.i
 $task_usersql_oll="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 ";
 $result1_oll = mysqli_query($con, $task_usersql_oll);
 $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
-/*
-echo "<pre>";
-print_r ($task_count_oll);
-echo "</pre>";
-*/
+//echo "<pre>";
+//print_r ($task_count_oll);
+//echo "</pre>";
 $result = mysqli_query($con, $projectuser);
 //$result1 = mysqli_query($con, $task_usersql);
 $result_sql_task= mysqli_query($con, $task_usersql);
@@ -51,8 +54,8 @@ $sort_project="SELECT * FROM task WHERE USER=2 AND project_id=$cat_task_id";
 $sort_project_vivod=mysqli_query($con, $sort_project);
 //itog for work
 $task_sql_current = mysqli_fetch_all($sort_project_vivod, MYSQLI_ASSOC);
-/*
-echo "<pre>";
+
+/*echo "<pre>";
 print_r ($task_sql_current);
 echo "</pre>";
 */
@@ -86,6 +89,9 @@ $title2="Дела в порядке ";
 //$name_user= "КОнстантин";
 $name_user= $result_name_nick3;
 $user_task=[];
+
+
+
 //вариант вывод ключей из массива $test,"title")
 $page_content3= include_template ('main.php', [
    // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
@@ -94,7 +100,7 @@ $page_content3= include_template ('main.php', [
       'task_c_name'=>$task_count1 ,
     //'task_c_name2'=>$task_count,
     'task_count_oll1' =>$task_count_oll ,
-    //  print_r($task_count1),
+  //    print_r($task_count1),
 
   //  'get_id'=> ,
     'show_complete_tasks'=> $show_complete_tasks]);
