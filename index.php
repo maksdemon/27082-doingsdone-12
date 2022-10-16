@@ -13,20 +13,43 @@ if ($con == false) {
 } else {
   //  print("Соединение установлено");
     // выполнение запросов
-
-
-
-
-
 }
+
 //тестовый поиск id (ПОСЛЕ ИНДЕКС PHP ВЫВОДИТ ЧТО ВВЕЛИ)
 $cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 //echo "T".$cat_task_id."ЕУЧЕ";
-if(isset($cat_task_id ))
-    $cat_task_id;
-else
-    $task_usersql_oll;
 
+
+if(isset($cat_task_id)){
+    //пачка для выводу нужного проекта
+   // $sort_project="SELECT * FROM task WHERE USER=2 AND project_id=$cat_task_id";
+    $task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=$cat_task_id ";
+    $result_sql_task= mysqli_query($con, $task_usersql);
+    $task_count1 = mysqli_fetch_all($result_sql_task , MYSQLI_ASSOC);
+    //echo "<pre>";
+    //print_r ($task_count1);
+  //  echo "</pre>";
+    //вывод по запросу
+    if (!$task_count1){
+        http_response_code(404);
+    }
+
+}
+else  {
+
+    $sort_project="SELECT * FROM task WHERE USER=2 ";
+    $sort_project_vivod=mysqli_query($con, $sort_project);
+    $task_sql_current = mysqli_fetch_all($sort_project_vivod, MYSQLI_ASSOC);
+    //oll
+    $task_usersql_oll="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 ";
+    $result1_oll = mysqli_query($con, $task_usersql_oll);
+    $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
+    $task_count1=0;
+    $task_count1=$task_count_oll;
+    //echo "<pre>";
+//print_r ($task_count_oll);
+//echo "</pre>";
+}
 
 
 $projectuser = "SELECT * FROM project where id_user=2";
@@ -34,7 +57,7 @@ $projectuser1 = "SELECT * FROM project where id_user=2";
 $taskuser ="SELECT name FROM task WHERE USER=2";
 $name_nick="SELECT * FROM  users WHERE id_user=2";
 // список задач с группами
-$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=$cat_task_id ";
+//$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=$cat_task_id ";
 //oll
 $task_usersql_oll="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 ";
 $result1_oll = mysqli_query($con, $task_usersql_oll);
@@ -44,16 +67,16 @@ $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
 //echo "</pre>";
 $result = mysqli_query($con, $projectuser);
 //$result1 = mysqli_query($con, $task_usersql);
-$result_sql_task= mysqli_query($con, $task_usersql);
+
 $result_name_nick = mysqli_query($con, $name_nick);
 $sql_task_user= 'SELECT name FROM task WHERE `user`=2';
 $result_sql_user= mysqli_query($con, $sql_task_user);
 //пачка для выводу нужного проекта
-$sort_project="SELECT * FROM task WHERE USER=2 AND project_id=$cat_task_id";
+
 //вывод по запросу
-$sort_project_vivod=mysqli_query($con, $sort_project);
+
 //itog for work
-$task_sql_current = mysqli_fetch_all($sort_project_vivod, MYSQLI_ASSOC);
+
 
 /*echo "<pre>";
 print_r ($task_sql_current);
@@ -69,7 +92,7 @@ $task_sql2 = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 //$task_count = mysqli_fetch_all($task_sql_oll1 , MYSQLI_ASSOC);
 //в актуальном разрезе
-$task_count1 = mysqli_fetch_all($result_sql_task , MYSQLI_ASSOC);
+
 /*echo "<pre>";
 print_r( $task_count."test");
 echo "</pre>";
@@ -92,12 +115,16 @@ $user_task=[];
 
 
 
+
+
+
 //вариант вывод ключей из массива $test,"title")
 $page_content3= include_template ('main.php', [
    // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
     'type_project'=> $task_sql2,
   //  'link_project'=>$task_sql_project_id,
       'task_c_name'=>$task_count1 ,
+     //'task_c_name'=>$task_count_oll,
     //'task_c_name2'=>$task_count,
     'task_count_oll1' =>$task_count_oll ,
   //    print_r($task_count1),
