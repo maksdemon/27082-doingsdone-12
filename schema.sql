@@ -29,15 +29,13 @@ CREATE TABLE `task` (
                       `STATUS` BOOLEAN NOT NULL DEFAULT '0',
                       `project_id` INT NOT NULL,
                       `file` varchar(255)
-
-
 );
 
 CREATE INDEX search_by_name on `users` (name);
 CREATE INDEX search_by_project on `project` (title);
 CREATE INDEX search_by_task on `task` (NAME);
 
-SELECT * FROM project
+SELECT * FROM project;
 INSERT INTO task (`name`, `deadline`, `project_id`, `user`)
 VALUES ("Собеседование в IT компании", "2020-12-01",1,1),
        ("Выполнить тестовое задание", "2021-11-06",2,1),
@@ -60,15 +58,15 @@ INSERT INTO project (`title`,`id_user`) VALUES
                                           ("АВТО",1),
                                           ("МАГАЗИН",2),
                                           ("МЕТРО",2),
-                                          ("ХЛАМ",2)
-                                          
+                                          ("ХЛАМ",2);
+
 INSERT INTO users (`name`,`email`,`password`,id_user,`data`) VALUES
   ("denni","den@mirom@mir","aAESWF@Q",2,"2022-05-17"),
-  ("konst","konst@mirom@mir","sdfc",1,"2022-03-17")
-  
-SELECT title FROM project WHERE `id_user`=1
+  ("konst","konst@mirom@mir","sdfc",1,"2022-03-17");
 
-SELECT * FROM task
+SELECT title FROM project WHERE `id_user`=1;
+
+SELECT * FROM task WHERE USER=1;
 
 UPDATE task SET STATUS = 1 WHERE NAME = "игры";
 
@@ -77,4 +75,8 @@ UPDATE task SET name = "home"
 WHERE id = 3;
 
 SELECT title FROM project where id_user=2;
-SELECT name FROM task WHERE USER=2;
+SELECT * FROM task LEFT JOIN project on task.project_id=project.id ;
+
+SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2;
+
+SELECT NAME FROM  users WHERE id_user=1;

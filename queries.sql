@@ -9,14 +9,14 @@ INSERT INTO project (`title`,`id_user`) VALUES
                                           ("АВТО",1),
                                           ("МАГАЗИН",2),
                                           ("МЕТРО",2),
-                                          ("ХЛАМ",2)
+                                          ("ХЛАМ",2);
 
 /*
 добавление пользователей
 */
   INSERT INTO users (`name`,`email`,`password`,id_user,`data`) VALUES
   ("denni","den@mirom@mir","aAESWF@Q",2,"2022-05-17"),
-  ("konst","konst@mirom@mir","sdfc",1,"2022-03-17")
+  ("konst","konst@mirom@mir","sdfc",1,"2022-03-17");
 /*
 добавление списка задача
 */
@@ -36,11 +36,11 @@ VALUES ("Собеседование в IT компании", "2020-12-01",1,1),
 /*
 названия всех задач определенного пользователя
 */
-SELECT name FROM task WHERE `user`=1
+SELECT name FROM task WHERE `user`=1;
 /*
 названия всех проектов определенного пользователя
 */
-SELECT title FROM project WHERE `id_user`=1
+SELECT title FROM project WHERE `id_user`=1;
 /*
 пометить задачу выполненной
 */
@@ -49,8 +49,7 @@ UPDATE task SET STATUS = 1 WHERE name = "игры";
 /*
 смена названия
 */
-UPDATE task SET name = "home"
-WHERE id = 3;
+UPDATE task SET name = "home"WHERE id = 3;
 
 /*
 сведение таблиц
