@@ -1,4 +1,5 @@
 <?php
+require_once ('helpers.php');
 $ts = time();
 //echo ($ts);
 // показывать или нет выполненные задачи
@@ -106,7 +107,7 @@ echo "</pre>";
 $result_name_nick3 = array_column ((mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC)),"name");
 
 
-require_once ('helpers.php');
+
 $title2="Дела в порядке ";
 //$content2 = "";
 //$name_user= "КОнстантин";
