@@ -49,6 +49,8 @@ VALUES ("Собеседование в IT компании", "2020-12-01",1,1),
        ("поспать", "2012-10-01",8,2),
        ("игры", "2022-01-27",2,1),
        ("встреча", "2022-10-07",3,1);
+INSERT INTO task (`name`, `project_id`, `user`, `deadline`)
+VALUES ("dfgnfdgn", 8,2,"2020-12-01");
 
 INSERT INTO project (`title`,`id_user`) VALUES
                                           ("УЧЕБА",1),
@@ -64,9 +66,10 @@ INSERT INTO users (`name`,`email`,`password`,id_user,`data`) VALUES
   ("denni","den@mirom@mir","aAESWF@Q",2,"2022-05-17"),
   ("konst","konst@mirom@mir","sdfc",1,"2022-03-17");
 
-SELECT title FROM project WHERE `id_user`=1;
+SELECT * FROM task ;
+INSERT INTO task (`name`, `deadline`, `project_id`, `user`)
 
-SELECT * FROM task WHERE USER=1;
+SELECT * FROM task WHERE USER=2 AND project_id=2;
 
 UPDATE task SET STATUS = 1 WHERE NAME = "игры";
 
@@ -79,4 +82,9 @@ SELECT * FROM task LEFT JOIN project on task.project_id=project.id ;
 
 SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2;
 
+SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2;
+
 SELECT NAME FROM  users WHERE id_user=1;
+
+SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=8;
+doingsdone_db

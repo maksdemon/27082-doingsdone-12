@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title><?= $title1 ?></title>
   <link rel="stylesheet" href="../css/normalize.css">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/flatpickr.min.css">
@@ -24,7 +24,7 @@
 
         <div class="main-header__side-item user-menu">
           <div class="user-menu__data">
-            <p><?php  $name_user1[0]; ?></p>
+            <p><?=  $name_user1[0]; ?> </p>
 
             <a href="#">Выйти</a>
           </div>
@@ -35,7 +35,19 @@
     <div class="content">
       <section class="content__side">
         <h2 class="content__side-heading">Проекты</h2>
+        <ul class="main-navigation__list">
+          <?php foreach ($type_project as $typ): ?>
+          <li class="main-navigation__list-item
+                    <?php if (isset($typ["id"]) && intval($typ["id"]) === intval($_GET["id"])): ?>
+          main-navigation__list-item--active
+          <?php endif; ?>">
 
+
+          <a class="main-navigation__list-item-link" href="/?id=<?= $typ['id']; ?>"><?= htmlspecialchars($typ['title']);  ?></a>
+          <span class="main-navigation__list-item-count"><?= test_count( $task_count_oll1,$typ['title'])  ?></span>
+          </li>
+          <?php endforeach; ?>
+        </ul>
         <nav class="main-navigation">
           <ul class="main-navigation__list">
             <li class="main-navigation__list-item">

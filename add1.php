@@ -1,7 +1,7 @@
 <?php
 ///require_once ('helpers.php');
 ///
-include ('helpers.php');
+include('helpers.php');
 $ts = time();
 //echo ($ts);
 // показывать или нет выполненные задачи
@@ -14,7 +14,7 @@ mysqli_set_charset($con, "utf8");
 if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
 } else {
-  //  print("Соединение установлено");
+    //  print("Соединение установлено");
     // выполнение запросов
 }
 
@@ -25,13 +25,13 @@ $cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
 if(isset($cat_task_id)){
     //пачка для выводу нужного проекта
-   // $sort_project="SELECT * FROM task WHERE USER=2 AND project_id=$cat_task_id";
+    // $sort_project="SELECT * FROM task WHERE USER=2 AND project_id=$cat_task_id";
     $task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=$cat_task_id ";
     $result_sql_task= mysqli_query($con, $task_usersql);
     $task_count1 = mysqli_fetch_all($result_sql_task , MYSQLI_ASSOC);
     //echo "<pre>";
     //print_r ($task_count1);
-  //  echo "</pre>";
+    //  echo "</pre>";
     //вывод по запросу
     if (!$task_count1){
         http_response_code(404);
@@ -113,7 +113,7 @@ $result_name_nick3 = array_column ((mysqli_fetch_all($result_name_nick, MYSQLI_A
 $title2="Дела в порядке ";
 //$content2 = "";
 //$name_user= "КОнстантин";
-//$name_user= $result_name_nick3;
+$name_user= $result_name_nick3;
 $user_task=[];
 
 
@@ -122,17 +122,17 @@ $user_task=[];
 
 
 //вариант вывод ключей из массива $test,"title")
-$page_content3= include_template ('main.php', [
-   // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
+$page_content3= include_template ('add_main.php', [
+    // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
     'type_project'=> $task_sql2,
-  //  'link_project'=>$task_sql_project_id,
-      'task_c_name'=>$task_count1 ,
-     //'task_c_name'=>$task_count_oll,
+    //  'link_project'=>$task_sql_project_id,
+    'task_c_name'=>$task_count1 ,
+    //'task_c_name'=>$task_count_oll,
     //'task_c_name2'=>$task_count,
     'task_count_oll1' =>$task_count_oll ,
-  //    print_r($task_count1),
+    //    print_r($task_count1),
 
-  //  'get_id'=> ,
+    //  'get_id'=> ,
     'show_complete_tasks'=> $show_complete_tasks]);
 $layout_content =include_template ('layout.php',
     ['content2'=>$page_content3,
@@ -148,7 +148,7 @@ print ($layout_content);
 
 //подсчет количества задач
 function test_count ( $task_count_oll1 , $cat_task):int{
-        $count = 0;
+    $count = 0;
     foreach ($task_count_oll1  as $value) {
         if ($value ['title'] == $cat_task) {
             $count++;
@@ -179,7 +179,15 @@ foreach ($task_sql as $arr => $elem) {
 // то модифицируем запрос sql c условием, где project_id = get-параметру
 
 
-var_dump($_POST);
+
+
+
+
+
+
+
+
+
 
 
 
