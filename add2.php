@@ -57,9 +57,13 @@ else  {
 
 
 $projectuser = "SELECT * FROM project where id_user=2";
-$projectuser1 = "SELECT * FROM project where id_user=2";
-$taskuser ="SELECT name FROM task WHERE USER=2";
+//$projectuser1 = "SELECT * FROM project where id_user=2";
+$taskuser ="SELECT * FROM task WHERE USER=2";
 $name_nick="SELECT * FROM  users WHERE id_user=2";
+
+$result2_oll_user = mysqli_query($con, $taskuser);
+$task_count_oll2 = mysqli_fetch_all($result2_oll_user , MYSQLI_ASSOC);
+
 // список задач с группами
 //$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=$cat_task_id ";
 //oll
@@ -69,12 +73,13 @@ $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
 //echo "<pre>";
 //print_r ($task_count_oll);
 //echo "</pre>";
+$result_name_nick = mysqli_query($con, $name_nick);
+$sql_task_user= 'SELECT * FROM task WHERE `user`=2';
+$result_sql_user= mysqli_query($con, $sql_task_user);
 $result = mysqli_query($con, $projectuser);
 //$result1 = mysqli_query($con, $task_usersql);
 
-$result_name_nick = mysqli_query($con, $name_nick);
-$sql_task_user= 'SELECT name FROM task WHERE `user`=2';
-$result_sql_user= mysqli_query($con, $sql_task_user);
+
 //пачка для выводу нужного проекта
 
 //вывод по запросу
@@ -106,51 +111,117 @@ echo "</pre>";
 
 
 //$result_name_nick1 =mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC);
-
 $result_name_nick3 = array_column ((mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC)),"name");
 
-//проверка что есть название
-$tsql_name =filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING, ['options' => ['default' => '']]);
-if (!$tsql_name) {
-    $errors['$tsql_name'] = 'Название не введено';
-}
-$project_err = filter_input(INPUT_POST, 'project', FILTER_VALIDATE_INT, ['options' => ['default' => 0]]);
-//проверка даты
-$date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRING, ['options' => ['default' => '']]);
-print_r ($errors);
-if ($date) {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $errors = [];
+    $tsql_name =filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING, ['options' => ['default' => '']]);
+    if (!$tsql_name) {
+        $errors['$tsql_name'] = 'Название не введено';
+    }
 
-    if (is_date_valid($date)) {
-        if (strtotime($date) < strtotime('now')) {
-            $errors['date'] = 'Выбрана прошедшая или уже наступившая дата';
+    $result_name_nick3 = array_column ((mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC)),"name");
+
+//проверка что есть название
+
+    $project_err = filter_input(INPUT_POST, 'project', FILTER_VALIDATE_INT, ['options' => ['default' => 0]]);
+//проверка даты
+    $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRING, ['options' => ['default' => '']]);
+   // print_r ($errors);
+
+
+    if ($date) {
+
+        if (is_date_valid($date)) {
+            if (strtotime($date) < strtotime('now')) {
+                $errors['date'] = 'Выбрана прошедшая или уже наступившая дата';
+            }
+        } else {
+            $errors['date'] = 'Дата не корректна';
         }
     } else {
-        $errors['date'] = 'Дата не корректна';
-    }
-} else {
-    $errors['date'] = 'Дата не заполнена';
-};
+        $errors['date'] = 'Дата не заполнена';
+    };
+    // Проверяем загрузил ли пользователь файл, получаем имя файла и его размер
 
-print_r ($errors);
+  /*  if (isset($_FILES["file"]) && $_FILES['file']['name'] !== "") {
+
+        $current_mime_type = mime_content_type($_FILES["file"]["tmp_name"]);
+        $white_list_files = ["image/jpeg", "image/png", "text/plain", "application/pdf", "application/msword"];
+
+        $file_name = $_FILES["file"]["name"];
+        $file_size = $_FILES["file"]["size"];
+        $tmp_name = $_FILES["file"]["tmp_name"];
+
+
+        if (!in_array($current_mime_type, $white_list_files)) {
+            $errors["file"] = "Загрузите файл в формате jpeg, png, txt, pdf или doc";
+        }else if ($file_size > 200000) {
+            $errors["user_file"] = "Максимальный размер файла: 200Кб";
+        }
+        else {
+            // Сохраняем его в папке «uploads» и формируем ссылку на скачивание
+            $file_path = __DIR__ . "/uploads/";
+            $file_url = "/uploads/" . $file_name;
+
+            // Функция move_uploaded_file($current_path, $new_path) проверяет, что файл действительно загружен через форму и перемещает загруженный файл по новому адресу
+            move_uploaded_file($tmp_name, $file_path . $file_name);
+
+            // Добавляем название файла в наш массив $task
+            $task["file"] = $file_url;
+        }
+    }*/
+
+
+    if (is_uploaded_file($_FILES['file']['tmp_name'])) { // была загрузка файла
+        if ($_FILES['file']['error'] === UPLOAD_ERR_OK) { // Если загружен файл и нет ошибок, то сохраняем его в папку
+            $original_name = $_FILES['file']['name'];
+           // $errors['file'] = 'нето';
+            $target = __DIR__  . '/uploads/' . $original_name;
+
+            // сохраняем файл в папке
+            if (!move_uploaded_file($_FILES['file']['tmp_name'], $target)) {
+                $errors['file'] = 'Не удалось сохранить файл.';
+            }
+        } else {
+            $errors['file'] = 'Ошибка ' . $_FILES['file']['error'] . ' при загрузке файла. <a href="https://www.php.net/manual/ru/features.file-upload.errors.php" target="_blank">Код ошибки</a>';
+        }
+    };
+
+
+    var_dump($_POST);
+
+
+
+}
+
+var_dump($_POST);
+echo "<pre>";
+print_r ($stmt);
+echo "</pre>";
+
+//print_r ($errors);
 //print_r ($project_err);
 //формирование запроса на добавление задачи
 
 if ($errors == false && $date) {
     $user_id = $result_name_nick3[0];
-    $add_task_sql = 'INSERT INTO task (`name`, `project_id`, `user`,`deadline`) VALUES (?, ?,?,?)';
+    $add_task_sql = 'INSERT INTO task (`name`, `project_id`, `user`,`deadline`,`file`) VALUES (?, ?,?,?,?)';
     // делаем подготовленное выражение
     $stmt = db_get_prepare_stmt($con, $add_task_sql ,[
         $tsql_name,
    //     $tsql_project=>'project2',
-        $project_sq=>'project2',
+     //   (int)$project_sq=>'project2',
+        (int)$_POST['project2'],
         $user_id=>2,
-        $date
+        $date,
+        $original_name
     ]);
 
     // исполняем подготовленное выражение
     mysqli_stmt_execute($stmt);
 
-  //  header("Location: /");
+    header("Location: /");
 
 echo "<pre>";
 print_r ($stmt);
@@ -159,6 +230,9 @@ echo         $tsql_project."*2*";
 
 var_dump($_POST);
 
+
+}
+else{
 
 }
 
@@ -227,7 +301,9 @@ $page_content3= include_template ('../pages/form-task.php', [
     //'task_c_name'=>$task_count_oll,
     //'task_c_name2'=>$task_count,
     'task_count_oll1' =>$task_count_oll ,
-    'show_complete_tasks'=> $show_complete_tasks]);
+    'errors' => $errors,
+    'show_complete_tasks'=> $show_complete_tasks
+]);
 
 $layout_content =include_template ('layout.php',
     ['content2'=>$page_content3,

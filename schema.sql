@@ -87,4 +87,3 @@ SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user
 SELECT NAME FROM  users WHERE id_user=1;
 
 SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=8;
-doingsdone_db

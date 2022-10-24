@@ -109,6 +109,14 @@
                 </td>
                 <td class="task__file">
 
+                    <?php if (isset($test['file'])): ?>
+                        <a class="download-link" href="<?= "/uploads/".$test['file']; ?>">
+                            <?= $test['file']; ?>
+                        </a>
+                    <?php endif; ?>
+
+
+
                 </td>
                 <td class="task__date">
                     <?=

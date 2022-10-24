@@ -39,6 +39,9 @@
             <label class="form__label" for="name">Название <sup>*</sup></label>
 
             <input class="form__input" type="text" name="name" id="name" value="<?= $tsql_name ?>" placeholder="Введите название">
+              <?php if($_SERVER['REQUEST_METHOD'] == 'POST'): ?>
+                  <p class='form__message'><?= $errors['$tsql_name'] ?></p>
+              <?php endif; ?>
           </div>
 
             <!-- Проект -->
@@ -58,6 +61,9 @@
             <label class="form__label" for="date">Дата выполнения</label>
 
             <input class="form__input form__input--date" type="text" name="date" id="date" value="" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+              <?php if($_SERVER['REQUEST_METHOD'] == 'POST'): ?>
+                  <p class='form__message'><?= $errors['date'] ?></p>
+              <?php endif; ?>
           </div>
 
           <div class="form__row">
@@ -65,10 +71,15 @@
 
             <div class="form__input-file">
               <input class="visually-hidden" type="file" name="file" id="file" value="">
+                <?php if($_SERVER['REQUEST_METHOD'] == 'POST'): ?>
+                    <p class='form__message'><?=   $errors['file'] ?></p>
+                <?php endif; ?>
 
-              <label class="button button--transparent" for="file">
+
+                <label class="button button--transparent" for="file">
                 <span>Выберите файл</span>
               </label>
+
             </div>
           </div>
 
