@@ -189,17 +189,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     };
 
 
-    var_dump($_POST);
+  //  var_dump($_POST);
 
 
 
 }
-
+/*
 var_dump($_POST);
 echo "<pre>";
 print_r ($stmt);
 echo "</pre>";
-
+*/
 //print_r ($errors);
 //print_r ($project_err);
 //формирование запроса на добавление задачи
@@ -222,14 +222,14 @@ if ($errors == false && $date) {
     mysqli_stmt_execute($stmt);
 
     header("Location: /");
-
+/*
 echo "<pre>";
 print_r ($stmt);
 echo "</pre>";
 echo         $tsql_project."*2*";
 
 var_dump($_POST);
-
+*/
 
 }
 else{

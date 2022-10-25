@@ -67,7 +67,7 @@ INSERT INTO users (`name`,`email`,`password`,id_user,`data`) VALUES
   ("konst","konst@mirom@mir","sdfc",1,"2022-03-17");
 
 SELECT * FROM task ;
-INSERT INTO task (`name`, `deadline`, `project_id`, `user`)
+
 
 SELECT * FROM task WHERE USER=2 AND project_id=2;
 
