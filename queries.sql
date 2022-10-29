@@ -1,7 +1,7 @@
 /*
 добавление проектов
 */
-INSERT INTO project (`title`,`id_user`) VALUES
+INSERT INTO project (`title`,`id`) VALUES
                                           ("УЧЕБА",1),
                                           ("ВХОДЯЩИЕ",1),
                                           ("РАБОТА",1),
@@ -14,9 +14,9 @@ INSERT INTO project (`title`,`id_user`) VALUES
 /*
 добавление пользователей
 */
-  INSERT INTO users (`name`,`email`,`password`,id_user,`data`) VALUES
-  ("denni","den@mirom@mir","aAESWF@Q",2,"2022-05-17"),
-  ("konst","konst@mirom@mir","sdfc",1,"2022-03-17");
+  INSERT INTO users (`name`,`email`,`password`,`data`) VALUES
+  ("denni","den@mirom@mir","aAESWF@Q","2022-05-17"),
+  ("konst","konst@mirom@mir","sdfc","2022-03-17");
 /*
 добавление списка задача
 */
@@ -54,4 +54,4 @@ UPDATE task SET name = "home"WHERE id = 3;
 /*
 сведение таблиц
 */
-SELECT * FROM users inner JOIN task ON users.id_user=task.user;
+SELECT * FROM users inner JOIN task ON users.id=task.user;

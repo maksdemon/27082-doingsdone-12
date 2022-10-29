@@ -59,7 +59,7 @@ else  {
 $projectuser = "SELECT * FROM project where id_user=2";
 //$projectuser1 = "SELECT * FROM project where id_user=2";
 $taskuser ="SELECT * FROM task WHERE USER=2";
-$name_nick="SELECT * FROM  users WHERE id_user=2";
+$name_nick="SELECT * FROM  users WHERE id=2";
 
 $result2_oll_user = mysqli_query($con, $taskuser);
 $task_count_oll2 = mysqli_fetch_all($result2_oll_user , MYSQLI_ASSOC);
@@ -116,7 +116,7 @@ $result_name_nick3 = array_column ((mysqli_fetch_all($result_name_nick, MYSQLI_A
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $errors = [];
     $tsql_name =filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING, ['options' => ['default' => '']]);
-    if (!) {
+    if (!$tsql_name) {
         $errors['$tsql_name'] = 'Название не введено';
     }
 

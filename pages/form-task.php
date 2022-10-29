@@ -34,7 +34,7 @@
       <main class="content__main">
         <h2 class="content__main-heading">Добавление задачи</h2>
           <!-- Название -->
-        <form class="form"  action="/add2.php" method="post" enctype="multipart/form-data" autocomplete="off">
+        <form class="form"  action="/add.php" method="post" enctype="multipart/form-data" autocomplete="off">
           <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
 

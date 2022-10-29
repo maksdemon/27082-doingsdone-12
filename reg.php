@@ -12,7 +12,7 @@ mysqli_set_charset($con, "utf8");
 if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
 } else {
-      print("Соединение установлено");
+//      print("Соединение установлено");
     // выполнение запросов
 }
 
@@ -28,13 +28,13 @@ function check_email_dublicate($con, $user_mail)
         return true;
     }
 }
-$sql_id_max='SELECT id FROM USERS ORDER BY id DESC LIMIT 1';
+
 function insert_user_to_db($con, $data=[])
 {
 
 
-    $sql = 'INSERT INTO users (name, email, password,id_user) VALUES (?, ?, ?,id_user= $sql_id_max+1)';
-    $sql2= 'UPDATE users SET id_user=id WHERE id_user=0';
+    $sql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
+
     $stmt = db_get_prepare_stmt($con, $sql, $data);
     return mysqli_stmt_execute($stmt);
 
@@ -71,8 +71,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         insert_user_to_db($con, [$user_name, $user_mail, $user_password]);
 
-       // header('Location: /');
-        var_dump($_POST);
+       header('Location: /');
+       // var_dump($_POST);
     } else {
         $page_content = include_template(
             'reg.php',

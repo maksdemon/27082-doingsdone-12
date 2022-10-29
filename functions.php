@@ -56,7 +56,7 @@ else  {
 $projectuser = "SELECT * FROM project where id_user=2";
 $projectuser1 = "SELECT * FROM project where id_user=2";
 $taskuser ="SELECT name FROM task WHERE USER=2";
-$name_nick="SELECT * FROM  users WHERE id_user=2";
+$name_nick="SELECT * FROM  users WHERE id=2";
 // список задач с группами
 //$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=$cat_task_id ";
 //oll
