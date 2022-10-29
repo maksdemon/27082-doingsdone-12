@@ -66,16 +66,17 @@ INSERT INTO users (`name`,`email`,`password`,id_user,`data`) VALUES
   ("denni","den@mirom@mir","aAESWF@Q",2,"2022-05-17"),
   ("konst","konst@mirom@mir","sdfc",1,"2022-03-17");
 
-SELECT * FROM task ;
+SELECT * FROM users ;
+SELECT id FROM users ;
 
+INSERT INTO task (`name`, `deadline`, `project_id`, `user`)
 
 SELECT * FROM task WHERE USER=2 AND project_id=2;
 
 UPDATE task SET STATUS = 1 WHERE NAME = "игры";
 
 
-UPDATE task SET name = "home"
-WHERE id = 3;
+UPDATE task SET name = "home" WHERE id = 3;
 
 SELECT title FROM project where id_user=2;
 SELECT * FROM task LEFT JOIN project on task.project_id=project.id ;
@@ -87,3 +88,8 @@ SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user
 SELECT NAME FROM  users WHERE id_user=1;
 
 SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=8;
+SELECT * FROM task where user=2;
+SELECT file FROM task where user=2;
+
+INSERT INTO users (name, email, password,id_user) VALUES ("test@ya", "email1", "***",id_user=LAST_INSERT_ID());
+SELECT * FROM users ;

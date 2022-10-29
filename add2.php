@@ -116,7 +116,7 @@ $result_name_nick3 = array_column ((mysqli_fetch_all($result_name_nick, MYSQLI_A
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $errors = [];
     $tsql_name =filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING, ['options' => ['default' => '']]);
-    if (!$tsql_name) {
+    if (!) {
         $errors['$tsql_name'] = 'Название не введено';
     }
 
@@ -243,7 +243,7 @@ $user_id = $result_name_nick3[0];
 $add_task_sql = 'INSERT INTO task (`name`, `project_id`, `user`,`deadline`) VALUES (?, ?,?,?)';
 // делаем подготовленное выражение
 $stmt = db_get_prepare_stmt($con, $add_task_sql ,[
-$tsql_name,
+
 $tsql_project,
 $user_id,
 $date
