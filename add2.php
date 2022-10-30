@@ -59,7 +59,7 @@ else  {
 $projectuser = "SELECT * FROM project where id_user=2";
 //$projectuser1 = "SELECT * FROM project where id_user=2";
 $taskuser ="SELECT * FROM task WHERE USER=2";
-$name_nick="SELECT * FROM  users WHERE id_user=2";
+$name_nick="SELECT * FROM  users WHERE id=2";
 
 $result2_oll_user = mysqli_query($con, $taskuser);
 $task_count_oll2 = mysqli_fetch_all($result2_oll_user , MYSQLI_ASSOC);
@@ -243,7 +243,7 @@ $user_id = $result_name_nick3[0];
 $add_task_sql = 'INSERT INTO task (`name`, `project_id`, `user`,`deadline`) VALUES (?, ?,?,?)';
 // делаем подготовленное выражение
 $stmt = db_get_prepare_stmt($con, $add_task_sql ,[
-$tsql_name,
+
 $tsql_project,
 $user_id,
 $date

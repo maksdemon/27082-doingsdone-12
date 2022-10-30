@@ -28,7 +28,7 @@ include ('functions.php');?>
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus" href="add.php">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus" href="add3.php">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
