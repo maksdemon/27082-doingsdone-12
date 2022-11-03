@@ -8,14 +8,14 @@ CREATE TABLE `users` (
                        `name` varchar(255) NOT NULL,
                        `email` varchar(255) NOT NULL UNIQUE,
                        `password` varchar(255) NOT NULL,
-                       `id_user` INT(255) ,
+
                        `data` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `project` (
                          `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                          `title` varchar(255) NOT NULL,
-                         `id_user` INT(255) NOT NULL
+                         `user_id` INT(255) NOT NULL
 
 );
 
@@ -52,7 +52,7 @@ VALUES ("Собеседование в IT компании", "2020-12-01",1,1),
 INSERT INTO task (`name`, `project_id`, `user`, `deadline`)
 VALUES ("dfgnfdgn", 8,2,"2020-12-01");
 
-INSERT INTO project (`title`,`id_user`) VALUES
+INSERT INTO project (`title`,`user_id`) VALUES
                                           ("УЧЕБА",1),
                                           ("ВХОДЯЩИЕ",1),
                                           ("РАБОТА",1),
@@ -62,7 +62,7 @@ INSERT INTO project (`title`,`id_user`) VALUES
                                           ("МЕТРО",2),
                                           ("ХЛАМ",2);
 
-INSERT INTO users (`name`,`email`,`password`,id_user,`data`) VALUES
+INSERT INTO users (`name`,`email`,`password`,id,`data`) VALUES
   ("denni","den@mirom@mir","aAESWF@Q",2,"2022-05-17"),
   ("konst","konst@mirom@mir","sdfc",1,"2022-03-17");
 
@@ -78,16 +78,16 @@ UPDATE task SET STATUS = 1 WHERE NAME = "игры";
 
 UPDATE task SET name = "home" WHERE id = 3;
 
-SELECT title FROM project where id_user=2;
+SELECT title FROM project where user_id=2;
 SELECT * FROM task LEFT JOIN project on task.project_id=project.id ;
 
-SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2;
+SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=2;
 
-SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2;
+SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=2;
 
 SELECT NAME FROM  users WHERE id=1;
 
-SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=8;
+SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=2 and project_id=8;
 SELECT * FROM task where user=2;
 SELECT file FROM task where user=2;
 

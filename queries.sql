@@ -40,7 +40,7 @@ SELECT name FROM task WHERE `user`=1;
 /*
 названия всех проектов определенного пользователя
 */
-SELECT title FROM project WHERE `id_user`=1;
+SELECT title FROM project WHERE `user_id`=1;
 /*
 пометить задачу выполненной
 */

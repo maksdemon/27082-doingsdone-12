@@ -15,10 +15,6 @@ if ($con == false) {
 //      print("Соединение установлено");
     // выполнение запросов
 }
-
-//тестовый поиск id (ПОСЛЕ ИНДЕКС PHP ВЫВОДИТ ЧТО ВВЕЛИ)
-$cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-//echo "T".$cat_task_id."ЕУЧЕ";
 function check_email_dublicate($con, $user_mail)
 {
     $email = mysqli_real_escape_string($con, $user_mail);
@@ -28,18 +24,6 @@ function check_email_dublicate($con, $user_mail)
         return true;
     }
 }
-
-function insert_user_to_db($con, $data=[])
-{
-
-
-    $sql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
-
-    $stmt = db_get_prepare_stmt($con, $sql, $data);
-    return mysqli_stmt_execute($stmt);
-
-}
-
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $required_fields = ['email', 'password', 'name'];
@@ -55,20 +39,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
-
+//проверка почты
     if (!empty($user_mail)) {
         if (!filter_var($user_mail, FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = 'E-mail введён некорректно';
         } elseif (check_email_dublicate($con, $user_mail)) {
-          //  $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
+            //$errors['email'] = 'Пользователь с этим email уже зарегистрирован';
+
         }
     }
     if (empty($errors)) {
 
         insert_user_to_db($con, [$user_name, $user_mail, $user_password]);
 
-       header('Location: /');
-       // var_dump($_POST);
+        header('Location: /');
+        // var_dump($_POST);
     } else {
         $page_content = include_template(
             'reg.php',
@@ -83,46 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         'reg.php'
     );
 }
-
-
-
-
-
-
-
-//скрипт добавления
-
-
-
-if ($errors == false && $date) {
-    $user_id = $result_name_nick3[0];
-    $add_task_sql = 'INSERT INTO task (`name`, `project_id`, `user`,`deadline`,`file`) VALUES (?, ?,?,?,?)';
-    // делаем подготовленное выражение
-    $stmt = db_get_prepare_stmt($con, $add_task_sql, [
-        $email,
-        //     $tsql_project=>'project2',
-        //   (int)$project_sq=>'project2',
-        (int)$_POST['project2'],
-        $user_id => $userID,
-        $date,
-        $original_name
-    ]);
-
-    mysqli_stmt_execute($stmt);
-
-    header("Location: /");
-
-
-} else {
-
-}
-//регистрация пользователя отправка в базу данных и редирект на главную
-//скрипт поиска ошибки
-
-
-
-
-
 $title2 = "Дела в порядке ";
 //$content2 = "";
 //$name_user= "КОнстантин";
@@ -131,7 +76,7 @@ $user_task = [];
 
 
 //вариант вывод ключей из массива $test,"title")
-$page_content3 = include_template('../register.php', [
+$page_content3 = include_template('authf.php', [
     // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
     'type_project' => $task_sql2,
     //  'link_project'=>$task_sql_project_id,
@@ -146,13 +91,10 @@ $page_content3 = include_template('../register.php', [
 $layout_content = include_template('layout-autorisation.php',
     [
         'content2' => $page_content3,
-      //  'title1' => $title2,
+        //  'title1' => $title2,
         'name_user1' => $result_name_nick3
     ]);
 
 
 //print ($page_content3 );
 print ($layout_content);
-
-
-
