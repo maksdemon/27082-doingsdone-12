@@ -1,5 +1,7 @@
 <?php
-
+session_start();
+$user = $_SESSION["user"]["id"];
+$userID=(int)$user;
 require_once('helpers.php');
 $ts = time();
 //echo ($ts);
@@ -60,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!filter_var($user_mail, FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = 'E-mail введён некорректно';
         } elseif (check_email_dublicate($con, $user_mail)) {
-          //  $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
+            $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
         }
     }
     if (empty($errors)) {

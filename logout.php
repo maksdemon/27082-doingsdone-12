@@ -1,5 +1,5 @@
 <?php
 session_start();
 $_SESSION = [];
-header ('Location: /');
+header ('Location: /templates/guestf.php');
 exit;

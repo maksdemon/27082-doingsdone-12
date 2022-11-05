@@ -1,10 +1,15 @@
 <?php
-
+session_start();
 require_once('helpers.php');
 $ts = time();
+
+define('CACHE_DIR', basename(__DIR__ . DIRECTORY_SEPARATOR . 'cache'));
+define('UPLOAD_PATH', basename(__DIR__ . DIRECTORY_SEPARATOR . 'uploads'));
 //echo ($ts);
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
+//$userID=1;
+//var_dump ($_SESSION["user"]["id"]);
 
 //подключение к базе данных, вывод ошибки
 $con = mysqli_connect("localhost", "root", "", "doingsdone_db");
@@ -15,6 +20,8 @@ if ($con == false) {
 //      print("Соединение установлено");
     // выполнение запросов
 }
+
+
 function check_email_dublicate($con, $user_mail)
 {
     $email = mysqli_real_escape_string($con, $user_mail);
@@ -24,50 +31,62 @@ function check_email_dublicate($con, $user_mail)
         return true;
     }
 }
-
+//$connect = connect();
+$users = $userID;
+//правка на авторизацию
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $required_fields = ['email', 'password', 'name'];
+    $required_fields = ['email', 'password'];
     $errors = [];
-    $user_name = $_POST['name'];
-    $user_mail = $_POST['email'];
-    $user_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
+    $user_guest = $_POST;
+    $required = ["email", "password"];
 //проверка на пустые поля
     foreach ($required_fields as $field) {
         if (empty($_POST[$field])) {
             $errors[$field] = 'Поле не заполнено';
         }
     }
-
 //проверка почты
-    if (!empty($user_mail)) {
-        if (!filter_var($user_mail, FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'E-mail введён некорректно';
-        } elseif (check_email_dublicate($con, $user_mail)) {
-            //$errors['email'] = 'Пользователь с этим email уже зарегистрирован';
-
+    $email = mysqli_real_escape_string($con, $user_guest["email"]);
+    $sql = "SELECT * FROM users WHERE email = '$email'";
+    $result = mysqli_query($con, $sql);
+    $user = $result ? mysqli_fetch_array($result, MYSQLI_ASSOC) : null;
+    if (!count($errors) and $user) {
+        if (password_verify($user_guest['password'], $user['password'])) {
+            $_SESSION['user'] = $user;
+        }
+        else {
+            $errors['password'] = 'Неверный пароль';
         }
     }
-    if (empty($errors)) {
-
-        insert_user_to_db($con, [$user_name, $user_mail, $user_password]);
-
-        header('Location: /');
-        // var_dump($_POST);
-    } else {
-        $page_content = include_template(
-            'reg.php',
-            [
-                'errors' => $errors
-            ]
-        );
+    else {
+        $errors['email'] = 'Такой пользователь не найден';
 
     }
-} else {
-    $page_content = include_template(
-        'reg.php'
-    );
+    if (count($errors)) {
+        $page_content = include_template('enter.php', ['form' => $user_guest, 'errors' => $errors]);
 }
+
+else {
+        $page_content = include_template(
+            //'auth.php'
+            header("Location: /")
+        );
+    }
+}
+
+else {
+    $page_content = include_template('auth.php', []);
+
+    if (isset($_SESSION['user'])) {
+        header("Location: /");
+        exit();
+    }
+}
+
+
+
+//var_dump($_POST);
+//var_dump($_SESSION);
 $title2 = "Дела в порядке ";
 //$content2 = "";
 //$name_user= "КОнстантин";

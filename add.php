@@ -4,13 +4,10 @@
 ///
 
 session_start();
-if (!isset($_SESSION['id'])) {
-    header ('Location: /');
-    exit;
-};
-$userID = $_SESSION['id'];
-$userName = $_SESSION['user'];
 
+//echo ($user = $_SESSION["user"]);
+$user = $_SESSION["user"]["id"];
+$userID=(int)$user;
 
 
 require_once ('helpers.php');
@@ -247,54 +244,8 @@ else{
 }
 
 
-/*
-$user_id = $result_name_nick3[0];
-//$tsql_project=[8];
-$add_task_sql = 'INSERT INTO task (`name`, `project_id`, `user`,`deadline`) VALUES (?, ?,?,?)';
-// делаем подготовленное выражение
-$stmt = db_get_prepare_stmt($con, $add_task_sql ,[
-
-$tsql_project,
-$user_id,
-$date
-]);
-var_dump( $tsql_project);
-
-
-mysqli_stmt_execute($stmt);
-var_dump($_POST);
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Выполняем полученное выражение
-//$result = mysqli_stmt_execute($stmt);
-
-
-
-
-
-
-
-
-
-
-
 $title2="Дела в порядке ";
-//$content2 = "";
-//$name_user= "КОнстантин";
-//$name_user= $result_name_nick3;
+
 $user_task=[];
 
 
@@ -345,61 +296,9 @@ function date_diff3 ($date){
     $diff =  floor(($task_date_str-$ts)/3600);
     return $diff;
 }
-/*
-$checker_get_params = 0;
-foreach ($task_sql as $arr => $elem) {
-    if($elem['id'] == $get_param_project_id){
-        $checker_get_params++;
-    };
-};
-*/
 
-// Получаем массив задач, если есть get-параметр,
-// то модифицируем запрос sql c условием, где project_id = get-параметру
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//список задач
 
 $projects=[];
-
-
-/* пример обработки ошибки
-if (!$result) {
-    $error = mysqli_error($con);
-    print("Ошибка MySQL: " . $error);
-}
-*/
-
-/* ошибка
-$date_now = date_create('now');
-$date_task = date_create($task['date_complete']);
-$date_diff1 = date_diff($date_task,$date_now);
-$date_diff2 = date_format('%a ');
-*/
-/*
-function date_diff3 ($date){
-    $datetime1 = date_create('now');
-    $date2 = date_create($date);
-    $interval = date_diff($datetime1, $date2);
-    $interval->format('%a');
-}
-*/
-
 
 
 

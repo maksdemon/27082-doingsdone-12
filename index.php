@@ -3,7 +3,20 @@
 ///
 // $userID = $_SESSION['id'];
 //$userName = $_SESSION['user'];
-$userID=1;
+//$user = $_SESSION["user"];
+
+// Если пользователь не вошёл в систему (т.е. нет о нем информации в сессии), подключаем тут же (!) страницу для гостя и выходим
+session_start();
+$user = $_SESSION["user"]["id"];
+$userID=(int)$user;
+if (!isset($_SESSION["user"]["id"])) {
+header("location: /templates/guestf.php");
+exit;}
+
+
+//echo "<pre>";
+//print_r ($user = $_SESSION["user"]);
+//  echo "</pre>";
 include ('helpers.php');
 $ts = time();
 //echo ($ts);
@@ -43,7 +56,7 @@ if(isset($cat_task_id)){
 }
 else  {
 
-    $sort_project="SELECT * FROM task WHERE USER=$userID ";
+    $sort_project="SELECT * FROM task WHERE user= $userID ";
     $sort_project_vivod=mysqli_query($con, $sort_project);
     $task_sql_current = mysqli_fetch_all($sort_project_vivod, MYSQLI_ASSOC);
     //oll
@@ -77,51 +90,19 @@ $result = mysqli_query($con, $projectuser);
 $result_name_nick = mysqli_query($con, $name_nick);
 $sql_task_user= 'SELECT name FROM task WHERE `user`=$userID';
 $result_sql_user= mysqli_query($con, $sql_task_user);
-//пачка для выводу нужного проекта
 
-//вывод по запросу
-
-//itog for work
-
-
-/*echo "<pre>";
-print_r ($task_sql_current);
-echo "</pre>";
-*/
-// список задач простым массивом из ассотиативного
-//$task_sql = array_column ((mysqli_fetch_all($result, MYSQLI_ASSOC)),"title");
 
 $task_sql2 = mysqli_fetch_all($result, MYSQLI_ASSOC);
-//print_r ($task_sql2);
-//$task_sql_project_id = array_column ((mysqli_fetch_all($result1, MYSQLI_ASSOC)),"id");
-//print_r ($task_sql_project_id);
-
-//$task_count = mysqli_fetch_all($task_sql_oll1 , MYSQLI_ASSOC);
-//в актуальном разрезе
-
-/*echo "<pre>";
-print_r( $task_count."test");
-echo "</pre>";
-*/
-//ник пользователя
 
 
-
-//$result_name_nick1 =mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC);
 
 $result_name_nick3 = array_column ((mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC)),"name");
 
 
 
 $title2="Дела в порядке ";
-//$content2 = "";
-//$name_user= "КОнстантин";
-//$name_user= $result_name_nick3;
+
 $user_task=[];
-
-
-
-
 
 
 //вариант вывод ключей из массива $test,"title")
