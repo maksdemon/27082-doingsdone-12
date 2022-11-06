@@ -15,7 +15,7 @@ CREATE TABLE `users` (
 CREATE TABLE `project` (
                          `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                          `title` varchar(255) NOT NULL,
-                         `id_user` INT(255) NOT NULL
+                         `user_id` INT(255) NOT NULL
 
 );
 
@@ -52,7 +52,7 @@ VALUES ("Собеседование в IT компании", "2020-12-01",1,1),
 INSERT INTO task (`name`, `project_id`, `user`, `deadline`)
 VALUES ("dfgnfdgn", 8,2,"2020-12-01");
 
-INSERT INTO project (`title`,`id_user`) VALUES
+INSERT INTO project (`title`,`id`) VALUES
                                           ("УЧЕБА",1),
                                           ("ВХОДЯЩИЕ",1),
                                           ("РАБОТА",1),
@@ -61,6 +61,16 @@ INSERT INTO project (`title`,`id_user`) VALUES
                                           ("МАГАЗИН",2),
                                           ("МЕТРО",2),
                                           ("ХЛАМ",2);
+INSERT INTO project (`title`,`user_id`) VALUES
+                                          ("УЧЕБА",3),
+                                          ("ВХОДЯЩИЕ",3),
+                                          ("РАБОТА",3),
+                                          ("ДОМАШНИЕ ДЕЛА",3),
+                                          ("АВТО",3),
+                                          ("МАГАЗИН",3),
+                                          ("МЕТРО",3),
+                                          ("ХЛАМ",3);
+
 
 INSERT INTO users (`name`,`email`,`password`,id_user,`data`) VALUES
   ("denni","den@mirom@mir","aAESWF@Q",2,"2022-05-17"),
@@ -68,7 +78,9 @@ INSERT INTO users (`name`,`email`,`password`,id_user,`data`) VALUES
 
 SELECT * FROM users ;
 SELECT id FROM users ;
+SELECT * FROM project ;
 
+SELECT * FROM users WHERE email = 'test4@ya.ru';
 
 
 SELECT * FROM task WHERE USER=2 AND project_id=2;

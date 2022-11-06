@@ -34,7 +34,7 @@ include ('functions.php');?>
                     <div class="user-menu__data">
                         <p><?=  $result_name_nick3[0] ?> 45</p>
 
-                        <a href="#">Выйти</a>
+                        <a href="/logout.php">Выйти</a>
                     </div>
                 </div>
             </div>

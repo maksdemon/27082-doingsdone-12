@@ -1,5 +1,7 @@
 <?php
-
+session_start();
+$user = $_SESSION["user"]["id"];
+$userID=(int)$user;
 require_once('helpers.php');
 $ts = time();
 //echo ($ts);
@@ -37,10 +39,6 @@ function insert_user_to_db($con, $data=[])
 
     $stmt = db_get_prepare_stmt($con, $sql, $data);
     return mysqli_stmt_execute($stmt);
-
-
-
-
 
 }
 
@@ -107,7 +105,7 @@ if ($errors == false && $date) {
         //     $tsql_project=>'project2',
         //   (int)$project_sq=>'project2',
         (int)$_POST['project2'],
-        $user_id => 2,
+        $user_id => $userID,
         $date,
         $original_name
     ]);
