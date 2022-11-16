@@ -7,13 +7,14 @@
 
 // Если пользователь не вошёл в систему (т.е. нет о нем информации в сессии), подключаем тут же (!) страницу для гостя и выходим
 session_start();
+
 //$search = $_GET['search'] ?? false;
 $user = $_SESSION["user"]["id"];
 $userID=(int)$user;
 if (!isset($_SESSION["user"]["id"])) {
 header("location: /templates/guestf.php");
 exit;}
-echo($userID);
+//echo($userID);
 
 //echo "<pre>";
 //print_r ($user = $_SESSION["user"]);
@@ -77,18 +78,16 @@ if (isset($_GET['q'])) {
                // $search_q = "SELECT * FROM task where user=$userID and MATCH(name) AGAINST (?)";
                 $search_q = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID AND MATCH(name) AGAINST ( '$search')";
                 $search_f = mysqli_query($con, $search_q);
-                echo('****');
               //  $task_count1=0;
-              $task_count1=$search_f;
-            }else{
-                echo ("ничего нет");
-
+                $task_count1=$search_f;
+                $records_count = mysqli_num_rows( $task_count1);
+                if($records_count==0){
+                        $errorsearch2 = "Ничего не найдено по вашему запросу ";
+                       // echo ($errorsearch2);
+                    }
             }
-
-
-
     }
-    echo ($_GET['q']);
+
 
 
 $projectuser = "SELECT * FROM project where user_id=$userID";
@@ -134,12 +133,15 @@ $page_content3= include_template ('main.php', [
     'type_project'=> $task_sql2,
   //  'link_project'=>$task_sql_project_id,
       'task_c_name'=>$task_count1 ,
+      'errorsearch2'=> $errorsearch2,
      //'task_c_name'=>$task_count_oll,
     //'task_c_name2'=>$task_count,
     'task_count_oll1' =>$task_count_oll ,
   //    print_r($task_count1),
   //  "task_search" =>  $search_result,
-  //  'get_id'=> ,
+
+
+
     'show_complete_tasks'=> $show_complete_tasks]);
 $layout_content =include_template ('layout.php',
     ['content2'=>$page_content3,

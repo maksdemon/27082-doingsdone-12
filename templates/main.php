@@ -48,22 +48,7 @@
         </label>
     </div>
     <table class="tasks">
-        <!--  <tr class="tasks__item task">
-             <td class="task__select">
-                 <label class="checkbox task__checkbox">
-                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1" >
-                     <span class="checkbox__text">Сделать главную страницу Дела в порядке</span>
-                 </label>
-             </td>
 
-             <td class="task__file">
-                 <a class="download-link" href="#">Home.psd</a>
-             </td>
-
-             <td class="task__date"></td>
-         </tr>-->
-        <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
-        <!-- my test-->
         <!--<?php if ($show_complete_tasks == 1) : ?>
             <tr class="tasks__item task task--completed
                  <?php if ( $test = (strtotime ($test['deadline'])-time())<86400): ?>
@@ -86,6 +71,8 @@
         -->
 
         <!--  //вывод самого списка задач-->
+
+
         <?php foreach ($task_c_name as  $test):{
             if ($show_complete_tasks == 0 && $test['status']== 'false'){
                 continue;
@@ -96,6 +83,7 @@
         }
 
             ?>
+
             <tr class="tasks__item task
                             <?php if ($test['status']== 'true') : ?>
                                 task--completed
@@ -103,6 +91,7 @@
 				             <?php if ( date_diff3($test['deadline']) <=24): ?>
                                 task--important
                             <?php endif; ?>
+
 ">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
@@ -129,7 +118,7 @@
                 </td>
             </tr>
         <?php endforeach; ?>
-
+        <p class="error-message"><?= $errorsearch2 ?></p>
 
     </table>
 </main>
