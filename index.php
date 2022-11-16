@@ -7,12 +7,13 @@
 
 // Если пользователь не вошёл в систему (т.е. нет о нем информации в сессии), подключаем тут же (!) страницу для гостя и выходим
 session_start();
+//$search = $_GET['search'] ?? false;
 $user = $_SESSION["user"]["id"];
 $userID=(int)$user;
 if (!isset($_SESSION["user"]["id"])) {
 header("location: /templates/guestf.php");
 exit;}
-
+echo($userID);
 
 //echo "<pre>";
 //print_r ($user = $_SESSION["user"]);
@@ -69,6 +70,25 @@ else  {
 //print_r ($task_count_oll);
 //echo "</pre>";
 }
+if (isset($_GET['q'])) {
+        $search = trim(filter_input(INPUT_GET, 'q', FILTER_SANITIZE_SPECIAL_CHARS));
+        $con = mysqli_connect("localhost", "root", "", "doingsdone_db");
+            if (!empty($search)) {
+               // $search_q = "SELECT * FROM task where user=$userID and MATCH(name) AGAINST (?)";
+                $search_q = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID AND MATCH(name) AGAINST ( '$search')";
+                $search_f = mysqli_query($con, $search_q);
+                echo('****');
+              //  $task_count1=0;
+              $task_count1=$search_f;
+            }else{
+                echo ("ничего нет");
+
+            }
+
+
+
+    }
+    echo ($_GET['q']);
 
 
 $projectuser = "SELECT * FROM project where user_id=$userID";
@@ -76,11 +96,14 @@ $projectuser1 = "SELECT * FROM project where user_id=$userID";
 $taskuser ="SELECT name FROM task WHERE USER=$userID";
 $name_nick="SELECT * FROM  users WHERE id=$userID";
 // список задач с группами
-//$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=$cat_task_id ";
-//oll
+
+
 $task_usersql_oll="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID ";
 $result1_oll = mysqli_query($con, $task_usersql_oll);
-$task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
+//$task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
+if($result1_oll) { // всегда проверять, есть ли результат
+    $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
+}
 //echo "<pre>";
 //print_r ($task_count_oll);
 //echo "</pre>";
@@ -115,7 +138,7 @@ $page_content3= include_template ('main.php', [
     //'task_c_name2'=>$task_count,
     'task_count_oll1' =>$task_count_oll ,
   //    print_r($task_count1),
-
+  //  "task_search" =>  $search_result,
   //  'get_id'=> ,
     'show_complete_tasks'=> $show_complete_tasks]);
 $layout_content =include_template ('layout.php',
@@ -163,7 +186,7 @@ foreach ($task_sql as $arr => $elem) {
 // то модифицируем запрос sql c условием, где project_id = get-параметру
 
 
-var_dump($_POST);
+//var_dump($_POST);
 
 
 
