@@ -126,7 +126,6 @@ $title2="Дела в порядке ";
 
 $user_task=[];
 
-
 //вариант вывод ключей из массива $test,"title")
 $page_content3= include_template ('main.php', [
    // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
