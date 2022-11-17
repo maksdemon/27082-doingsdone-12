@@ -149,35 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         $errors['date'] = 'Дата не заполнена';
     };
-    // Проверяем загрузил ли пользователь файл, получаем имя файла и его размер
 
-  /*  if (isset($_FILES["file"]) && $_FILES['file']['name'] !== "") {
-
-        $current_mime_type = mime_content_type($_FILES["file"]["tmp_name"]);
-        $white_list_files = ["image/jpeg", "image/png", "text/plain", "application/pdf", "application/msword"];
-
-        $file_name = $_FILES["file"]["name"];
-        $file_size = $_FILES["file"]["size"];
-        $tmp_name = $_FILES["file"]["tmp_name"];
-
-
-        if (!in_array($current_mime_type, $white_list_files)) {
-            $errors["file"] = "Загрузите файл в формате jpeg, png, txt, pdf или doc";
-        }else if ($file_size > 200000) {
-            $errors["user_file"] = "Максимальный размер файла: 200Кб";
-        }
-        else {
-            // Сохраняем его в папке «uploads» и формируем ссылку на скачивание
-            $file_path = __DIR__ . "/uploads/";
-            $file_url = "/uploads/" . $file_name;
-
-            // Функция move_uploaded_file($current_path, $new_path) проверяет, что файл действительно загружен через форму и перемещает загруженный файл по новому адресу
-            move_uploaded_file($tmp_name, $file_path . $file_name);
-
-            // Добавляем название файла в наш массив $task
-            $task["file"] = $file_url;
-        }
-    }*/
 
 
     if (is_uploaded_file($_FILES['file']['tmp_name'])) { // была загрузка файла
@@ -194,22 +166,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $errors['file'] = 'Ошибка ' . $_FILES['file']['error'] . ' при загрузке файла. <a href="https://www.php.net/manual/ru/features.file-upload.errors.php" target="_blank">Код ошибки</a>';
         }
     };
-
-
   //  var_dump($_POST);
-
-
-
 }
-/*
-var_dump($_POST);
-echo "<pre>";
-print_r ($stmt);
-echo "</pre>";
-*/
-//print_r ($errors);
-//print_r ($project_err);
-//формирование запроса на добавление задачи
 
 if ($errors == false && $date) {
     $user_id = $result_name_nick3[0];
@@ -223,20 +181,13 @@ if ($errors == false && $date) {
         $user_id=>$userID,
         $date,
         $original_name
+
     ]);
 
     // исполняем подготовленное выражение
     mysqli_stmt_execute($stmt);
+    header('Location: /');
 
-    header("Location: /");
-/*
-echo "<pre>";
-print_r ($stmt);
-echo "</pre>";
-echo         $tsql_project."*2*";
-
-var_dump($_POST);
-*/
 
 }
 else{
