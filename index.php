@@ -38,7 +38,7 @@ if ($con == false) {
 
 //тестовый поиск id (ПОСЛЕ ИНДЕКС PHP ВЫВОДИТ ЧТО ВВЕЛИ)
 $cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-//echo "T".$cat_task_id."ЕУЧЕ";
+
 
 
 if(isset($cat_task_id)){
@@ -67,14 +67,13 @@ else  {
     $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
     $task_count1=0;
     $task_count1=$task_count_oll;
-    //echo "<pre>";
-//print_r ($task_count_oll);
-//echo "</pre>";
+
 }
 if (isset($_GET['q'])) {
         $search = trim(filter_input(INPUT_GET, 'q', FILTER_SANITIZE_SPECIAL_CHARS));
         $con = mysqli_connect("localhost", "root", "", "doingsdone_db");
             if (!empty($search)) {
+               $con->set_charset("utf8mb4");
                // $search_q = "SELECT * FROM task where user=$userID and MATCH(name) AGAINST (?)";
                 $search_q = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID AND MATCH(name) AGAINST ( '$search')";
                 $search_f = mysqli_query($con, $search_q);
@@ -103,9 +102,7 @@ $result1_oll = mysqli_query($con, $task_usersql_oll);
 if($result1_oll) { // всегда проверять, есть ли результат
     $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
 }
-//echo "<pre>";
-//print_r ($task_count_oll);
-//echo "</pre>";
+
 $result = mysqli_query($con, $projectuser);
 //$result1 = mysqli_query($con, $task_usersql);
 
@@ -133,10 +130,10 @@ $page_content3= include_template ('main.php', [
   //  'link_project'=>$task_sql_project_id,
       'task_c_name'=>$task_count1 ,
       'errorsearch2'=> $errorsearch2,
-     //'task_c_name'=>$task_count_oll,
-    //'task_c_name2'=>$task_count,
+
+   // 'task_c_name2'=>$task_count,
     'task_count_oll1' =>$task_count_oll ,
-  //    print_r($task_count1),
+
   //  "task_search" =>  $search_result,
 
 
@@ -158,7 +155,7 @@ print ($layout_content);
 function test_count ( $task_count_oll1 , $cat_task):int{
         $count = 0;
     foreach ($task_count_oll1  as $value) {
-        if ($value ['title'] == $cat_task) {
+        if (isset($value ['title']) ==  isset($cat_task) && $value ['title'] == $cat_task) {
             $count++;
         }
     }

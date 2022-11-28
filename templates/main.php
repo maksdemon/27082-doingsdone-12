@@ -7,8 +7,6 @@
                     <?php if (isset($typ["id"]) && intval($typ["id"]) === intval($_GET["id"])): ?>
                         main-navigation__list-item--active
                     <?php endif; ?>">
-
-
                     <a class="main-navigation__list-item-link" href="/?id=<?= $typ['id']; ?>"><?= htmlspecialchars($typ['title']);  ?></a>
                     <span class="main-navigation__list-item-count"><?= test_count( $task_count_oll1,$typ['title'])  ?></span>
                 </li>
@@ -16,7 +14,7 @@
         </ul>
     </nav>
 
-    <a class="button button--transparent button--plus content__side-button" href="pages/form-project.html" target="project_add">Добавить проект</a>
+    <a class="button button--transparent button--plus content__side-button" href="add_project.php" target="project_add">Добавить проект</a>
 </section>
 
 <main class="content__main">
