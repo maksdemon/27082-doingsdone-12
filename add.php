@@ -34,7 +34,7 @@ $cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 if(isset($cat_task_id)){
     //пачка для выводу нужного проекта
     // $sort_project="SELECT * FROM task WHERE USER=2 AND project_id=$cat_task_id";
-    $task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID and project_id=$cat_task_id ";
+    $task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID and project_id=$cat_task_id ";
     $result_sql_task= mysqli_query($con, $task_usersql);
     $task_count1 = mysqli_fetch_all($result_sql_task , MYSQLI_ASSOC);
     //echo "<pre>";
@@ -52,7 +52,7 @@ else  {
     $sort_project_vivod=mysqli_query($con, $sort_project);
     $task_sql_current = mysqli_fetch_all($sort_project_vivod, MYSQLI_ASSOC);
     //oll
-    $task_usersql_oll="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID ";
+    $task_usersql_oll="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID ";
     $result1_oll = mysqli_query($con, $task_usersql_oll);
     $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
     $task_count1=0;
@@ -74,7 +74,7 @@ $task_count_oll2 = mysqli_fetch_all($result2_oll_user , MYSQLI_ASSOC);
 // список задач с группами
 //$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=$cat_task_id ";
 //oll
-$task_usersql_oll="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID ";
+$task_usersql_oll="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID AND task.STATUS = 0 ";
 $result1_oll = mysqli_query($con, $task_usersql_oll);
 $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
 //echo "<pre>";
@@ -86,12 +86,23 @@ $result_sql_user= mysqli_query($con, $sql_task_user);
 $result = mysqli_query($con, $projectuser);
 //$result1 = mysqli_query($con, $task_usersql);
 
+//task done reverse
+$task_done_sql= "UPDATE task SET STATUS = 1 WHERE id = $taskId";
 
-//пачка для выводу нужного проекта
 
-//вывод по запросу
 
-//itog for work
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*echo "<pre>";
