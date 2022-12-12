@@ -4,11 +4,9 @@
 // $userID = $_SESSION['id'];
 //$userName = $_SESSION['user'];
 //$user = $_SESSION["user"];
-
 // Если пользователь не вошёл в систему (т.е. нет о нем информации в сессии), подключаем тут же (!) страницу для гостя и выходим
 session_start();
 
-//$search = $_GET['search'] ?? false;
 $user = $_SESSION["user"]["id"];
 $userID=(int)$user;
 if (!isset($_SESSION["user"]["id"])) {
@@ -24,8 +22,15 @@ $ts = time();
 //echo ($ts);
 // показывать или нет выполненные задачи
 
-$show_complete_tasks =  isset($_GET['show_completed']) ? (int)$_GET['show_completed'] : 1;
+//test
 
+//test
+
+
+
+$show_complete_tasks =  isset($_GET['show_completed']) ? (int)$_GET['show_completed'] : 1;
+$cat_task_id2 =  isset($_GET['filter']) ? (string )$_GET['show_completed'] : '';
+echo ( $cat_task_id2 );
 $type2=[ "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
 
 //подключение к базе данных, вывод ошибки
@@ -42,10 +47,10 @@ if ($con == false) {
 $cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 $cat_task_filter = filter_input(INPUT_GET, 'filter', FILTER_SANITIZE_STRING);
 //echo ($cat_task_filter);
-if(isset( $cat_task_id)){
-    $cat_task_id_show= "&id=".$cat_task_id;
-   // echo ($cat_task_id_show);
-   // echo(33);
+if( $cat_task_id){
+    $cat_task_id_show= "&id=$cat_task_id";
+   echo ($cat_task_id);
+ //   echo(33);
 }
 
 
@@ -80,7 +85,6 @@ else  {
 }
 if (isset($_GET['q'])) {
         $search = trim(filter_input(INPUT_GET, 'q', FILTER_SANITIZE_SPECIAL_CHARS));
-        $con = mysqli_connect("localhost", "root", "", "doingsdone_db");
             if (!empty($search)) {
                $con->set_charset("utf8mb4");
                // $search_q = "SELECT * FROM task where user=$userID and MATCH(name) AGAINST (?)";
@@ -148,19 +152,32 @@ $task_sql_task_active = mysqli_fetch_all($result_task_active, MYSQLI_ASSOC);
 
 if ($_GET['show_completed'] == 0) {
     $search = trim(filter_input(INPUT_GET, 'show_completed', FILTER_SANITIZE_SPECIAL_CHARS));
-    $con = mysqli_connect("localhost", "root", "", "doingsdone_db");
     if (isset($_GET['show_completed'])) {
         $con->set_charset("utf8mb4");
         // $search_q = "SELECT * FROM task where user=$userID and MATCH(name) AGAINST (?)";
-        $search_q = "SELECT name FROM task where USER =$userID AND STATUS=0";
-        $search_f = mysqli_query($con, $search_q);
-        //  $task_count1=0;
-        $task_count1=$search_f;
-        $records_count = mysqli_num_rows( $task_count1);
-        if($records_count==0){
-            $errorsearch2 = "Ничего не найдено по вашему запросу ";
-            // echo ($errorsearch2);
+        if (isset($cat_task_id)){
+            $search_q = " SELECT * FROM task where USER =$userID AND STATUS=0 AND project_id =$cat_task_id";
+            $search_f = mysqli_query($con, $search_q);
+            //  $task_count1=0;
+            $task_count1=$search_f;
+            $records_count = mysqli_num_rows( $task_count1);
+            if($records_count==0){
+                $errorsearch2 = "Ничего не найдено по вашему запросу ";
+                // echo ($errorsearch2);
+            }
         }
+        else{
+            $search_q = "SELECT name FROM task where USER =$userID AND STATUS=0";
+            $search_f = mysqli_query($con, $search_q);
+            //  $task_count1=0;
+            $task_count1=$search_f;
+            $records_count = mysqli_num_rows( $task_count1);
+            if($records_count==0){
+                $errorsearch2 = "Ничего не найдено по вашему запросу ";
+                // echo ($errorsearch2);
+            }
+        }
+
     }
     else{
 
@@ -185,7 +202,7 @@ if ($task_id_rev) {
     $task_sql_task_status = mysqli_fetch_all($result_task_status, MYSQLI_ASSOC);
 
         if ($task_sql_task_status[0] ["STATUS"] === '0') {
-            $con = mysqli_connect("localhost", "root", "", "doingsdone_db");
+
             $sql = "UPDATE task SET STATUS = 1 WHERE id = $task_id_rev";
             $result = mysqli_query($con, $sql);
           //  header("Location: /(if(isset($cat_task_id))id=$cat_task_id");
@@ -193,7 +210,7 @@ if ($task_id_rev) {
         }
         else {
             if ($task_sql_task_status[0] ["STATUS"] === '1') {
-                $con = mysqli_connect("localhost", "root", "", "doingsdone_db");
+
                 $sql = "UPDATE task SET STATUS = 0 WHERE id = $task_id_rev";
                 $result = mysqli_query($con, $sql);
              //   header("Location: /".if(isset($cat_task_id))id=$cat_task_id);
@@ -295,7 +312,7 @@ function filterToday($task_count_oll)
 
 
 function filterExpired($task_count_oll)
-{
+{$ts = time();
     $task_count_oll = [];
     foreach ($task_count_oll as $task) :
         if (strtotime($task['deadline']) < strtotime($ts)) {
@@ -351,6 +368,8 @@ $page_content3= include_template ('main.php', [
     'id_cat'=>$cat_task_id,
     'id_task_time'=>$cat_task_filter,
     'id_task_showid'=>$cat_task_id_show,
+    'id_task_showid2'=>$cat_task_id2,
+
     'show_complete_tasks'=> $show_complete_tasks]);
 
 
@@ -386,19 +405,6 @@ function date_diff3 ($date){
     $diff =  floor(($task_date_str-$ts)/3600);
     return $diff;
 }
-/*
-$checker_get_params = 0;
-foreach ($task_sql as $arr => $elem) {
-    if($elem['id'] == $get_param_project_id){
-        $checker_get_params++;
-    };
-};
-*/
-
-// Получаем массив задач, если есть get-параметр,
-// то модифицируем запрос sql c условием, где project_id = get-параметру
-
-
 
 
 

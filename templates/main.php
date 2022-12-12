@@ -41,7 +41,8 @@
 
 
 
-            <a href="/?filter=today" class="tasks-switch__item   <?php if ($id_task_time == 'today') : ?>
+            <a href="/?filter=today<?php $id_task_showid2 ?>" class="tasks-switch__item   <?php if ($id_task_time == 'today') : ?>
+            <?php echo($id_cat) ?>
                           tasks-switch__item--active<?php endif;?>">Повестка дня</a>
 
             <a href="/?filter=tommorow" class="tasks-switch__item <?php if ($id_task_time == 'tommorow') : ?>
@@ -53,8 +54,7 @@
 
         <label class="checkbox">
             <!--добавить сюда атрибут "checked", если переменная $show_complete_tasks равна единице-->
-        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?php if ($show_complete_tasks ==1):?>checked <?php endif; ?>>
-
+        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?php if ($show_complete_tasks == 1):?>checked <?php endif; ?>>
 
             <span class="checkbox__text">Показывать выполненные</span>
         </label>
