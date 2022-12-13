@@ -48,8 +48,8 @@ $cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 $cat_task_filter = filter_input(INPUT_GET, 'filter', FILTER_SANITIZE_STRING);
 //echo ($cat_task_filter);
 if( $cat_task_id){
-    $cat_task_id_show= "&id=$cat_task_id";
-   echo ($cat_task_id);
+    $cat_task_id_show= "&id=".$cat_task_id;
+   echo ($cat_task_id_show);
  //   echo(33);
 }
 

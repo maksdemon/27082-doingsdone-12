@@ -35,20 +35,20 @@
         <nav class="tasks-switch">
 
 
-            <a href="/?filter=all<?=(isset($id_task_showid))?>" class="tasks-switch__item <?php if ($id_task_time == 'all' || $id_task_time == '') : ?>
+            <a href="/?filter=all&show_completed=1<?=$id_task_showid ?>" class="tasks-switch__item <?php if ($id_task_time == 'all' || $id_task_time == '') : ?>
                         tasks-switch__item--active<?php endif;?>">Все задачи</a>
 
 
 
 
-            <a href="/?filter=today<?php $id_task_showid2 ?>" class="tasks-switch__item   <?php if ($id_task_time == 'today') : ?>
+            <a href="/?filter=today&show_completed=1<?php $id_task_showid ?>" class="tasks-switch__item   <?php if ($id_task_time == 'today') : ?>
             <?php echo($id_cat) ?>
                           tasks-switch__item--active<?php endif;?>">Повестка дня</a>
 
-            <a href="/?filter=tommorow" class="tasks-switch__item <?php if ($id_task_time == 'tommorow') : ?>
+            <a href="/?filter=tommorow&show_completed=1<?php $id_task_showid ?>" class="tasks-switch__item <?php if ($id_task_time == 'tommorow') : ?>
                             tasks-switch__item--active <?php endif;?>">Завтра</a>
 
-            <a href="/?filter=expired" class="tasks-switch__item <?php if ($id_task_time == 'expired') : ?>
+            <a href="/?filter=expired&show_completed=1<?php $id_task_showid ?>" class="tasks-switch__item <?php if ($id_task_time == 'expired') : ?>
                             tasks-switch__item--active<?php endif;?>">Просроченные</a>
         </nav>
 
