@@ -108,7 +108,6 @@ $taskuser ="SELECT name FROM task WHERE USER=$userID";
 $name_nick="SELECT * FROM  users WHERE id=$userID";
 // список задач с группами
 
-
 $task_usersql_oll="SELECT * FROM task LEFT JOIN project on task.project_id=project.id where user=$userID AND task.STATUS = 0 ";
 $result1_oll = mysqli_query($con, $task_usersql_oll);
 
