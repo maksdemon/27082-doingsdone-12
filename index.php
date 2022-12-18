@@ -115,7 +115,6 @@ $result1_oll = mysqli_query($con, $task_usersql_oll);
 if($result1_oll) { // всегда проверять, есть ли результат
     $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
 }
-
 $result = mysqli_query($con, $projectuser);
 //$result1 = mysqli_query($con, $task_usersql);
 
