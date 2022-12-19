@@ -34,7 +34,7 @@ $cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 if(isset($cat_task_id)){
     //пачка для выводу нужного проекта
     // $sort_project="SELECT * FROM task WHERE USER=2 AND project_id=$cat_task_id";
-    $task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID and project_id=$cat_task_id ";
+    $task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID and project_id=$cat_task_id ";
     $result_sql_task= mysqli_query($con, $task_usersql);
     $task_count1 = mysqli_fetch_all($result_sql_task , MYSQLI_ASSOC);
     //echo "<pre>";
@@ -52,7 +52,7 @@ else  {
     $sort_project_vivod=mysqli_query($con, $sort_project);
     $task_sql_current = mysqli_fetch_all($sort_project_vivod, MYSQLI_ASSOC);
     //oll
-    $task_usersql_oll="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID ";
+    $task_usersql_oll="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID ";
     $result1_oll = mysqli_query($con, $task_usersql_oll);
     $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
     $task_count1=0;
@@ -74,7 +74,7 @@ $task_count_oll2 = mysqli_fetch_all($result2_oll_user , MYSQLI_ASSOC);
 // список задач с группами
 //$task_usersql="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where id_user=2 and project_id=$cat_task_id ";
 //oll
-$task_usersql_oll="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID AND task.STATUS = 0 ";
+$task_usersql_oll="SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID ";
 $result1_oll = mysqli_query($con, $task_usersql_oll);
 $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
 //echo "<pre>";
@@ -86,8 +86,7 @@ $result_sql_user= mysqli_query($con, $sql_task_user);
 $result = mysqli_query($con, $projectuser);
 //$result1 = mysqli_query($con, $task_usersql);
 
-//task done reverse
-$task_done_sql= "UPDATE task SET STATUS = 1 WHERE id = $taskId";
+//для добавления проекта
 
 
 
@@ -95,115 +94,47 @@ $task_done_sql= "UPDATE task SET STATUS = 1 WHERE id = $taskId";
 
 
 
-
-
-
-
-
-
-
-
-
-
-/*echo "<pre>";
-print_r ($task_sql_current);
-echo "</pre>";
-*/
-// список задач простым массивом из ассотиативного
-//$task_sql = array_column ((mysqli_fetch_all($result, MYSQLI_ASSOC)),"title");
 
 $task_sql2 = mysqli_fetch_all($result, MYSQLI_ASSOC);
-//print_r ($task_sql2);
-//$task_sql_project_id = array_column ((mysqli_fetch_all($result1, MYSQLI_ASSOC)),"id");
-//print_r ($task_sql_project_id);
-
-//$task_count = mysqli_fetch_all($task_sql_oll1 , MYSQLI_ASSOC);
-//в актуальном разрезе
-
-/*echo "<pre>";
-print_r( $task_count."test");
-echo "</pre>";
-*/
-//ник пользователя
-
-
 
 //$result_name_nick1 =mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC);
 $result_name_nick3 = array_column ((mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC)),"name");
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $errors = [];
-    $tsql_name =filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING, ['options' => ['default' => '']]);
-    if (!$tsql_name) {
-        $errors['$tsql_name'] = 'Название не введено';
-    }
+$errors = [];
+$tsql_name =filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING, ['options' => ['default' => '']]);
 
-    $result_name_nick3 = array_column ((mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC)),"name");
-
-//проверка что есть название
-
-    $project_err = filter_input(INPUT_POST, 'project', FILTER_VALIDATE_INT, ['options' => ['default' => 0]]);
-//проверка даты
-    $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRING, ['options' => ['default' => '']]);
-   // print_r ($errors);
-
-
-    if ($date) {
-
-        if (is_date_valid($date)) {
-            if (strtotime($date) < strtotime('now')) {
-                $errors['date'] = 'Выбрана прошедшая или уже наступившая дата';
-            }
-        } else {
-            $errors['date'] = 'Дата не корректна';
-        }
-    } else {
-        $errors['date'] = 'Дата не заполнена';
-    };
-
-
-
-    if (is_uploaded_file($_FILES['file']['tmp_name'])) { // была загрузка файла
-        if ($_FILES['file']['error'] === UPLOAD_ERR_OK) { // Если загружен файл и нет ошибок, то сохраняем его в папку
-            $original_name = $_FILES['file']['name'];
-           // $errors['file'] = 'нето';
-            $target = __DIR__  . '/uploads/' . $original_name;
-
-            // сохраняем файл в папке
-            if (!move_uploaded_file($_FILES['file']['tmp_name'], $target)) {
-                $errors['file'] = 'Не удалось сохранить файл.';
-            }
-        } else {
-            $errors['file'] = 'Ошибка ' . $_FILES['file']['error'] . ' при загрузке файла. <a href="https://www.php.net/manual/ru/features.file-upload.errors.php" target="_blank">Код ошибки</a>';
-        }
-    };
-  //  var_dump($_POST);
+$errors = [];
+$tsql_name =filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING, ['options' => ['default' => '']]);
+if (!$tsql_name) {
+    $errors['$tsql_name'] = 'Название не введено';
 }
-
-if ($errors == false && $date) {
+if ($errors == false ) {
     $user_id = $result_name_nick3[0];
-    $add_task_sql = 'INSERT INTO task (`name`, `project_id`, `user`,`deadline`,`file`) VALUES (?, ?,?,?,?)';
+    $add_task_sql = 'INSERT INTO project (`title`, `user_id`) VALUES (?,?)';
     // делаем подготовленное выражение
     $stmt = db_get_prepare_stmt($con, $add_task_sql ,[
         $tsql_name,
-   //     $tsql_project=>'project2',
-     //   (int)$project_sq=>'project2',
-        (int)$_POST['project2'],
+        //     $tsql_project=>'project2',
+        //   (int)$project_sq=>'project2',
+        //(int)$_POST['project2'],
         $user_id=>$userID,
-        $date,
-        $original_name
+
 
     ]);
 
     // исполняем подготовленное выражение
     mysqli_stmt_execute($stmt);
     header('Location: /');
-
+echo ($stmt);
 
 }
 else{
 
 }
+
+//var_dump($_POST);
+
+
 
 
 $title2="Дела в порядке ";
@@ -216,7 +147,7 @@ $user_task=[];
 
 
 //вариант вывод ключей из массива $test,"title")
-$page_content3= include_template ('../pages/form-task.php', [
+$page_content3= include_template ('../pages/form-project.php', [
     // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
     'type_project'=> $task_sql2,
     //  'link_project'=>$task_sql_project_id,

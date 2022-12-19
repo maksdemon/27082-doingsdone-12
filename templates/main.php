@@ -7,8 +7,6 @@
                     <?php if (isset($typ["id"]) && intval($typ["id"]) === intval($_GET["id"])): ?>
                         main-navigation__list-item--active
                     <?php endif; ?>">
-
-
                     <a class="main-navigation__list-item-link" href="/?id=<?= $typ['id']; ?>"><?= htmlspecialchars($typ['title']);  ?></a>
                     <span class="main-navigation__list-item-count"><?= test_count( $task_count_oll1,$typ['title'])  ?></span>
                 </li>
@@ -16,7 +14,7 @@
         </ul>
     </nav>
 
-    <a class="button button--transparent button--plus content__side-button" href="pages/form-project.html" target="project_add">Добавить проект</a>
+    <a class="button button--transparent button--plus content__side-button" href="add_project.php" target="project_add">Добавить проект</a>
 </section>
 
 <main class="content__main">
@@ -35,46 +33,36 @@
 
     <div class="tasks-controls">
         <nav class="tasks-switch">
-            <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
-            <a href="/" class="tasks-switch__item">Повестка дня</a>
-            <a href="/" class="tasks-switch__item">Завтра</a>
-            <a href="/" class="tasks-switch__item">Просроченные</a>
+
+
+            <a href="/?filter=all&show_completed=1<?=$id_task_showid ?>" class="tasks-switch__item <?php if ($id_task_time == 'all' || $id_task_time == '') : ?>
+                        tasks-switch__item--active<?php endif;?>">Все задачи</a>
+
+
+
+
+            <a href="/?filter=today&show_completed=1<?php $id_task_showid ?>" class="tasks-switch__item   <?php if ($id_task_time == 'today') : ?>
+            <?php echo($id_cat) ?>
+                          tasks-switch__item--active<?php endif;?>">Повестка дня</a>
+
+            <a href="/?filter=tommorow&show_completed=1<?php $id_task_showid ?>" class="tasks-switch__item <?php if ($id_task_time == 'tommorow') : ?>
+                            tasks-switch__item--active <?php endif;?>">Завтра</a>
+
+            <a href="/?filter=expired&show_completed=1<?php $id_task_showid ?>" class="tasks-switch__item <?php if ($id_task_time == 'expired') : ?>
+                            tasks-switch__item--active<?php endif;?>">Просроченные</a>
         </nav>
 
         <label class="checkbox">
             <!--добавить сюда атрибут "checked", если переменная $show_complete_tasks равна единице-->
-            <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?php if ($show_complete_tasks ==1):?>checked <?php endif; ?>>
+        <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?php if ($show_complete_tasks == 1):?>checked <?php endif; ?>>
+
             <span class="checkbox__text">Показывать выполненные</span>
         </label>
     </div>
     <table class="tasks">
 
-        <!--<?php if ($show_complete_tasks == 1) : ?>
-            <tr class="tasks__item task task--completed
-                 <?php if ( $test = (strtotime ($test['deadline'])-time())<86400): ?>
-                    task--important
-                <?php endif; ?>">
-                <td class="task__select">
-                    <label class="checkbox task__checkbox">
-                        <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                        <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
-                    </label>
-                </td>
-                <td class="task__date">10.10.2019</td>
-
-                <td class="task__controls">
-                </td>
-            </tr>
-        <?php endif ?>-->
-        <!-- my test/*
-
-        -->
-
-        <!--  //вывод самого списка задач-->
-
-
         <?php foreach ($task_c_name as  $test):{
-            if ($show_complete_tasks == 0 && $test['status']== 'false'){
+            if ($show_complete_tasks == 0 && $test['STATUS']== 'false'){
                 continue;
             }
             else{
@@ -83,19 +71,16 @@
         }
 
             ?>
-
             <tr class="tasks__item task
-                            <?php if ($test['status']== 'true') : ?>
+                            <?php if ($test['STATUS'] == '1') : ?>
                                 task--completed
-                            <?php endif ?>
+                            <?php endif; ?>
 				             <?php if ( date_diff3($test['deadline']) <=24): ?>
                                 task--important
-                            <?php endif; ?>
-
-">
+                            <?php endif; ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
-                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1" >
+                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="<?=$test['id']?>" >
                         <span class="checkbox__text"><?= htmlspecialchars ($test['name']);  ?></span>
                     </label>
                 </td>
@@ -119,7 +104,6 @@
             </tr>
         <?php endforeach; ?>
         <p class="error-message"><?= $errorsearch2 ?></p>
-
     </table>
 </main>
 

@@ -15,7 +15,7 @@ CREATE TABLE `users` (
 CREATE TABLE `project` (
                          `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                          `title` varchar(255) NOT NULL,
-                         `user_id` INT(255) NOT NULL
+                         `user_id` INT(255)
 
 );
 
@@ -79,15 +79,9 @@ INSERT INTO users (`name`,`email`,`password`,id_user,`data`) VALUES
 CREATE FULLTEXT INDEX task_search ON task(NAME);
 SELECT * FROM task where USER=2 and MATCH(name) AGAINST ('задание');
 
-SELECT * FROM users ;
-SELECT id FROM users ;
-SELECT * FROM project ;
-SELECT * FROM task ;
-
-SELECT * FROM users WHERE email = 'test4@ya.ru';
 
 
-SELECT * FROM task WHERE USER=1 AND project_id=2;
+
 
 UPDATE task SET STATUS = 1 WHERE NAME = "игры";
 
@@ -97,6 +91,8 @@ UPDATE task SET name = "home" WHERE id = 3;
 SELECT title FROM project where user_id=2;
 SELECT * FROM task LEFT JOIN project on task.project_id=project.id ;
 
+SELECT * FROM project LEFT JOIN task on task.project_id=project.id WHERE title = "тест5";
+
 
 
 SELECT NAME FROM  users WHERE id=1;
@@ -105,4 +101,7 @@ SELECT NAME FROM  users WHERE id=1;
 SELECT * FROM task where user=2;
 SELECT file FROM task where user=2;
 
+
+SELECT title FROM project where user_id=2;
+SELECT * FROM task LEFT JOIN project on task.project_id=project.id ;
 
