@@ -286,7 +286,6 @@ if(isset($safeFilter)){
         }
         $task_count1=$task_new;
 
-
     }
 
 }

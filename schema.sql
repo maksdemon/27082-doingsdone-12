@@ -85,6 +85,7 @@ SELECT * FROM task where USER=2 and MATCH(name) AGAINST ('задание');
 
 UPDATE task SET STATUS = 1 WHERE NAME = "игры";
 
+SELECT 
 
 UPDATE task SET name = "home" WHERE id = 3;
 
@@ -93,7 +94,27 @@ SELECT * FROM task LEFT JOIN project on task.project_id=project.id ;
 
 SELECT * FROM project LEFT JOIN task on task.project_id=project.id WHERE title = "тест5";
 
+SELECT * FROM task LEFT JOIN users on task.user =users.id GROUP BY id_user WHERE DATE(deadline) = DATE(NOW()) and status = 0;
+SELECT * FROM task LEFT JOIN users on task.user =users.id  WHERE  status = 0 
 
+SELECT task.id,task.name,deadline,STATUS,user FROM task LEFT JOIN users on task.user =users.id  WHERE  status = 0
+
+SELECT * FROM task where USER =3 AND STATUS=0 AND project_id =17
+
+SELECT * FROM task where USER =3 AND STATUS=0 AND project_id =17
+
+SELECT * FROM task where USER =3 AND STATUS=0 exist 
+
+SELECT * FROM task where USER =3 (SELECT * FROM task where STATUS = 0)
+
+$us=3;
+SELECT name FROM task where USER =3 AND STATUS=0
+
+SELECT * FROM project LEFT JOIN task on task.project_id=project.id where USER=3 $userID and project_id=$cat_task_id
+
+SELECT * FROM project LEFT JOIN task on task.project_id=project.id where USER=3  AND STATUS=0 AND project_id= 17
+
+doings_done1SELECT * FROM task WHERE `user`=3 AND STATUS=0
 
 SELECT NAME FROM  users WHERE id=1;
 
