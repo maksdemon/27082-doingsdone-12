@@ -37,66 +37,97 @@ $mailer = new Mailer($transport);
 $sql= 'SELECT task.id,task.name AS task_name,deadline,created_at, project_id,file,email,id_user,STATUS,USER,USERs.name FROM task LEFT JOIN users on task.user =users.id  WHERE  status = 0';
 
 $res = mysqli_query($con, $sql);
-echo "<pre>";
-print_r($res ) ;
-echo "</pre>";
+
 
 if ($res && mysqli_num_rows($res)) {
 $rezult =  mysqli_fetch_all($res, MYSQLI_ASSOC);
-    echo "<pre>";
-    print_r($rezult ) ;
-    echo "</pre>";
         $itog =[];
-
         foreach ($rezult as $value){
             $email = $value['email'];
+
             if(!array_key_exists($email,  $itog)) {
-                $value[$email] = [
+                $itog[$email] = [
                     'username' => $value['name'],
-                   // 'email' => $value['email'],
-                    'task' => $value[1]['task_name'],
+                    'email' => $value['email'],
+                    'task' => [],
+
                 ];
             }
-            $itog[$email]['task'][] =$value['name'];
+            $itog[$email]['task'][] =$value['task_name'];
+       //     echo $value['task_name'];
         }
-    echo "<pre>";
-    print_r($itog) ;
-    echo "</pre>";
+      //  return $itog;
+
+}
+$today = date('Y-m-d');
+
+
+    foreach ($itog as $userTask)
+    {
+        $mailText = "\n" . 'Уважаемый пользователь, ' . $userTask['username'] . "\n" . 'У Вас запланирована задача - ' . "\n";
+
+        foreach ($userTask['task'] as $todayTask)
+        {
+            $mailText = $mailText.$todayTask . ' на указанное число'.' '. $today . "\n";
+
+        };
+
+        $message = new Email();
+        $message->to('gikser@mail.ru');
+        $message->from('gunseo@yandex.ru');
+        $message->subject('Уведомление от сервиса «Дела в порядке»'.' '.$userTask['username']);
+        $message->text($mailText);
+
+
+        $mailer->send($message);
+
+    }
 
 
 
-    $test="demovariable";
-    $taskmail = mysqli_fetch_all($res, MYSQLI_ASSOC);
+
+
+
+
+/*
+if (isset($value)) {
+    $today = date('Y-m-d');
+//  $test="demovariable";
+//  $taskmail = mysqli_fetch_all($res, MYSQLI_ASSOC);
 // print_r($taskmail );
     $recipients = "gikser@mail.ru";
     $message = new Email();
     $message->subject("testname");
     $message->from('gunseo@yandex.ru');
     $message->to($recipients);
-  //  $message->text("This is the plain text body of the message.\nThanks,   \nAdmin");
-    $message = "\n" . 'Уважаемый, ' . $userTask['username'] . "\n" . 'У Вас запланирована задача - ' . "\n";
-    /*
-    foreach ($userTask['taskname'] as $todayTask)
-    {
-        $mailText = $mailText.$todayTask . ' на ' . $today . "\n";
+//  $message->text("This is the plain text body of the message.\nThanks,   \nAdmin");
+//   $message = "\n" . 'Уважаемый, ' . $userTask['username'] . "\n" . 'У Вас запланирована задача - ' . "\n";
+
+    foreach ($itog[$email] as $task) {
+        $message .= 'У вас запланирована задача: ';
+        $message .= $task['title'];
+        $message .= ' на ' . date('d.m.Y', strtotime($task['deadline']));
+        $message .= '\n';
+    }
+
+
+    foreach ($itog as $todayTask) {
+        $mailText = $mailText . $todayTask . ' на ' . $today . "\n";
     };
-*/
+
     $result = $mailer->send($message);
     if (!$result) {
         print("Рассылка успешно отправлена");
-    }
-    else {
+    } else {
         print("Не удалось отправить рассылку");
     }
+
 }
 
+*/
 
 
-
-
-
-
-
+/*
 foreach ($allUsersTasks as $userTask)
 {
     $mailText = "\n" . 'Уважаемый, ' . $userTask['username'] . "\n" . 'У Вас запланирована задача - ' . "\n";
@@ -114,3 +145,4 @@ foreach ($allUsersTasks as $userTask)
     $mailer = getMailer();
     $mailer->send($message);
 }
+*/
