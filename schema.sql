@@ -72,9 +72,9 @@ INSERT INTO project (`title`,`user_id`) VALUES
                                           ("demo1",1),
                                           ("ХЛАМ1",1);
 INSERT INTO users (`name`,`email`,`password`,id_user,`data`) VALUES
-  ("denni","den@mirom@mir","$2y$10$HU7AgiBY1PcaXy.uzgmjlu783jg/aZAOJpyCdNYrF0lBhYKuyXiSK",2,"2022-05-17"),
-  ("test5","test5@ya.ru","$2y$10$HU7AgiBY1PcaXy.uzgmjlu783jg/aZAOJpyCdNYrF0lBhYKuyXiSK",3,"2022-05-17"),
-  ("konst","konst@mirom@mir","$2y$10$HU7AgiBY1PcaXy.uzgmjlu783jg/aZAOJpyCdNYrF0lBhYKuyXiSK",1,"2022-03-17");
+  ("denni","gikser@mail.ru","$2y$10$HU7AgiBY1PcaXy.uzgmjlu783jg/aZAOJpyCdNYrF0lBhYKuyXiSK",2,"2022-05-17"),
+  ("test5","7gwen7@list.ru","$2y$10$HU7AgiBY1PcaXy.uzgmjlu783jg/aZAOJpyCdNYrF0lBhYKuyXiSK",3,"2022-05-17"),
+  ("konst","demonnick2012@gmail.com","$2y$10$HU7AgiBY1PcaXy.uzgmjlu783jg/aZAOJpyCdNYrF0lBhYKuyXiSK",1,"2022-03-17");
 
 CREATE FULLTEXT INDEX task_search ON task(NAME);
 SELECT * FROM task where USER=2 and MATCH(name) AGAINST ('задание');
@@ -85,8 +85,6 @@ SELECT * FROM task where USER=2 and MATCH(name) AGAINST ('задание');
 
 UPDATE task SET STATUS = 1 WHERE NAME = "игры";
 
-SELECT 
-
 UPDATE task SET name = "home" WHERE id = 3;
 
 SELECT title FROM project where user_id=2;
@@ -94,34 +92,12 @@ SELECT * FROM task LEFT JOIN project on task.project_id=project.id ;
 
 SELECT * FROM project LEFT JOIN task on task.project_id=project.id WHERE title = "тест5";
 
-SELECT * FROM task LEFT JOIN users on task.user =users.id GROUP BY id_user WHERE DATE(deadline) = DATE(NOW()) and status = 0;
-SELECT * FROM task LEFT JOIN users on task.user =users.id  WHERE  status = 0 
 
-SELECT task.id,task.name,deadline,STATUS,user FROM task LEFT JOIN users on task.user =users.id  WHERE  status = 0
-
-SELECT * FROM task where USER =3 AND STATUS=0 AND project_id =17
-
-SELECT * FROM task where USER =3 AND STATUS=0 AND project_id =17
-
-SELECT * FROM task where USER =3 AND STATUS=0 exist 
-
-SELECT * FROM task where USER =3 (SELECT * FROM task where STATUS = 0)
-
-$us=3;
-SELECT name FROM task where USER =3 AND STATUS=0
-
-SELECT * FROM project LEFT JOIN task on task.project_id=project.id where USER=3 $userID and project_id=$cat_task_id
-
-SELECT * FROM project LEFT JOIN task on task.project_id=project.id where USER=3  AND STATUS=0 AND project_id= 17
-
-doings_done1SELECT * FROM task WHERE `user`=3 AND STATUS=0
 
 SELECT NAME FROM  users WHERE id=1;
 
-
 SELECT * FROM task where user=2;
 SELECT file FROM task where user=2;
-
 
 SELECT title FROM project where user_id=2;
 SELECT * FROM task LEFT JOIN project on task.project_id=project.id ;
