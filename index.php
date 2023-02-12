@@ -30,7 +30,7 @@ $ts = time();
 
 $show_complete_tasks =  isset($_GET['show_completed']) ? (int)$_GET['show_completed'] : 1;
 $cat_task_id2 =  isset($_GET['filter']) ? (string )$_GET['show_completed'] : '';
-echo ( $cat_task_id2 );
+//echo ( $cat_task_id2 );
 $type2=[ "Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
 
 //подключение к базе данных, вывод ошибки
@@ -49,7 +49,7 @@ $cat_task_filter = filter_input(INPUT_GET, 'filter', FILTER_SANITIZE_STRING);
 //echo ($cat_task_filter);
 if( $cat_task_id){
     $cat_task_id_show= "&id=".$cat_task_id;
-   echo ($cat_task_id_show);
+  // echo ($cat_task_id_show);
  //   echo(33);
 }
 
@@ -285,7 +285,6 @@ if(isset($safeFilter)){
 
         }
         $task_count1=$task_new;
-
 
     }
 

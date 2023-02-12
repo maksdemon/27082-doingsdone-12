@@ -1,0 +1,21 @@
+{
+    "name": "mak/m",
+    "autoload": {
+        "psr-4": {
+            "Mak\\M\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mak mak",
+            "email": "john@example.com"
+        }
+    ],
+    "require": {
+        "respect/validation": "^2.2",
+        "symfony/mailer": "^5.4",
+        "wixel/gump": "^1.11",
+        "imagine/imagine": "^1.3",
+        "symfony/twig-bundle": "^5.4"
+    }
+}
