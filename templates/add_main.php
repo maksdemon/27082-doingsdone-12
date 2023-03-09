@@ -2,21 +2,31 @@
     <h2 class="content__side-heading">Проекты</h2>
     <nav class="main-navigation">
         <ul class="main-navigation__list">
-            <?php foreach ($type_project as $typ): ?>
+            <?php
+            foreach ($type_project as $typ): ?>
                 <li class="main-navigation__list-item
-                    <?php if (isset($typ["id"]) && intval($typ["id"]) === intval($_GET["id"])): ?>
+                    <?php
+                if (isset($typ["id"]) && intval($typ["id"]) === intval($_GET["id"])): ?>
                         main-navigation__list-item--active
-                    <?php endif; ?>">
+                    <?php
+                endif; ?>">
 
 
-                    <a class="main-navigation__list-item-link" href="/?id=<?= $typ['id']; ?>"><?= htmlspecialchars($typ['title']);  ?></a>
-                    <span class="main-navigation__list-item-count"><?= test_count( $task_count_oll1,$typ['title'])  ?></span>
+                    <a class="main-navigation__list-item-link" href="/?id=<?= $typ['id']; ?>"><?= htmlspecialchars(
+                            $typ['title']
+                        ); ?></a>
+                    <span class="main-navigation__list-item-count"><?= test_count(
+                            $task_count_oll1,
+                            $typ['title']
+                        ) ?></span>
                 </li>
-            <?php endforeach; ?>
+            <?php
+            endforeach; ?>
         </ul>
     </nav>
 
-    <a class="button button--transparent button--plus content__side-button" href="pages/form-project.html" target="project_add">Добавить проект</a>
+    <a class="button button--transparent button--plus content__side-button" href="pages/form-project.html"
+       target="project_add">Добавить проект</a>
 </section>
 
 <main class="content__main">
@@ -40,7 +50,9 @@
 
         <label class="checkbox">
             <!--добавить сюда атрибут "checked", если переменная $show_complete_tasks равна единице-->
-            <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?php if ($show_complete_tasks ==1):?>checked <?php endif; ?>>
+            <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?php
+            if ($show_complete_tasks == 1): ?>checked <?php
+            endif; ?>>
             <span class="checkbox__text">Показывать выполненные</span>
         </label>
     </div>
@@ -61,11 +73,14 @@
          </tr>-->
         <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->
         <!-- my test-->
-        <!--<?php if ($show_complete_tasks == 1) : ?>
+        <!--<?php
+        if ($show_complete_tasks == 1) : ?>
             <tr class="tasks__item task task--completed
-                 <?php if ( $test = (strtotime ($test['deadline'])-time())<86400): ?>
+                 <?php
+            if ($test = (strtotime($test['deadline']) - time()) < 86400): ?>
                     task--important
-                <?php endif; ?>">
+                <?php
+            endif; ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden" type="checkbox" checked>
@@ -77,34 +92,38 @@
                 <td class="task__controls">
                 </td>
             </tr>
-        <?php endif ?>-->
+        <?php
+        endif ?>-->
         <!-- my test/*
 
         -->
 
         <!--  //вывод самого списка задач-->
-        <?php foreach ($task_c_name as  $test):{
-            if ($show_complete_tasks == 0 && $test['status']== 'false'){
+        <?php
+        foreach ($task_c_name as $test):{
+            if ($show_complete_tasks == 0 && $test['status'] == 'false') {
                 continue;
-            }
-            else{
-
+            } else {
             }
         }
 
             ?>
             <tr class="tasks__item task
-                            <?php if ($test['status']== 'true') : ?>
+                            <?php
+            if ($test['status'] == 'true') : ?>
                                 task--completed
-                            <?php endif ?>
-				             <?php if ( date_diff3($test['deadline']) <=24): ?>
+                            <?php
+            endif ?>
+				             <?php
+            if (date_diff3($test['deadline']) <= 24): ?>
                                 task--important
-                            <?php endif; ?>
+                            <?php
+            endif; ?>
 ">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
-                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1" >
-                        <span class="checkbox__text"><?= htmlspecialchars ($test['name']);  ?></span>
+                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                        <span class="checkbox__text"><?= htmlspecialchars($test['name']); ?></span>
                     </label>
                 </td>
                 <td class="task__file">
@@ -117,7 +136,8 @@
 
                 </td>
             </tr>
-        <?php endforeach; ?>
+        <?php
+        endforeach; ?>
 
 
     </table>

@@ -1,7 +1,8 @@
 <?php
+
 session_start();
 $user = $_SESSION["user"]["id"];
-$userID=(int)$user;
+$userID = (int)$user;
 require_once('helpers.php');
 $ts = time();
 //echo ($ts);
@@ -31,15 +32,12 @@ function check_email_dublicate($con, $user_mail)
     }
 }
 
-function insert_user_to_db($con, $data=[])
+function insert_user_to_db($con, $data = [])
 {
-
-
     $sql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
 
     $stmt = db_get_prepare_stmt($con, $sql, $data);
     return mysqli_stmt_execute($stmt);
-
 }
 
 
@@ -66,11 +64,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
     if (empty($errors)) {
-
         insert_user_to_db($con, [$user_name, $user_mail, $user_password]);
 
-       header('Location: /');
-       // var_dump($_POST);
+        header('Location: /');
+        // var_dump($_POST);
     } else {
         $page_content = include_template(
             'reg.php',
@@ -78,7 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 'errors' => $errors
             ]
         );
-
     }
 } else {
     $page_content = include_template(
@@ -87,13 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 
-
-
-
-
-
 //скрипт добавления
-
 
 
 if ($errors == false && $date) {
@@ -113,16 +103,10 @@ if ($errors == false && $date) {
     mysqli_stmt_execute($stmt);
 
     header("Location: /");
-
-
 } else {
-
 }
 //регистрация пользователя отправка в базу данных и редирект на главную
 //скрипт поиска ошибки
-
-
-
 
 
 $title2 = "Дела в порядке ";
@@ -145,12 +129,14 @@ $page_content3 = include_template('../register.php', [
     'show_complete_tasks' => $show_complete_tasks
 ]);
 
-$layout_content = include_template('layout-autorisation.php',
+$layout_content = include_template(
+    'layout-autorisation.php',
     [
         'content2' => $page_content3,
-      //  'title1' => $title2,
+        //  'title1' => $title2,
         'name_user1' => $result_name_nick3
-    ]);
+    ]
+);
 
 
 //print ($page_content3 );

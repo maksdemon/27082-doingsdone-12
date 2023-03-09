@@ -2,7 +2,7 @@
 //include ('templates/layout.php');
 //include ('templates/main.php');
 //include ('index.php');
-include ('functions.php');?>
+include('functions.php'); ?>
 
 
 <!DOCTYPE html>
@@ -32,7 +32,7 @@ include ('functions.php');?>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
-                        <p><?=  $result_name_nick3[0] ?> 45</p>
+                        <p><?= $result_name_nick3[0] ?> 45</p>
 
                         <a href="/logout.php">Выйти</a>
                     </div>
@@ -45,7 +45,7 @@ include ('functions.php');?>
                 <h2 class="content__side-heading">Проекты</h2>
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
-                        <?= $task_sql2?>
+                        <?= $task_sql2 ?>
                     </ul>
                 </nav>
                 </nav>
@@ -79,17 +79,19 @@ include ('functions.php');?>
                                     </ul>
                                 </nav>
                 -->
-                <a class="button button--transparent button--plus content__side-button" href="form-project.html">Добавить проект</a>
+                <a class="button button--transparent button--plus content__side-button" href="form-project.html">Добавить
+                    проект</a>
             </section>
 
             <main class="content__main">
                 <h2 class="content__main-heading">Добавление задачи</h2>
 
-                <form class="form"  action="index.html" method="post" autocomplete="off">
+                <form class="form" action="index.html" method="post" autocomplete="off">
                     <div class="form__row">
                         <label class="form__label" for="name">Название <sup>*</sup></label>
 
-                        <input class="form__input" type="text" name="name" id="name" value="" placeholder="Введите название">
+                        <input class="form__input" type="text" name="name" id="name" value=""
+                               placeholder="Введите название">
                     </div>
 
                     <div class="form__row">
@@ -103,7 +105,8 @@ include ('functions.php');?>
                     <div class="form__row">
                         <label class="form__label" for="date">Дата выполнения</label>
 
-                        <input class="form__input form__input--date" type="text" name="date" id="date" value="" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+                        <input class="form__input form__input--date" type="text" name="date" id="date" value=""
+                               placeholder="Введите дату в формате ГГГГ-ММ-ДД">
                     </div>
 
                     <div class="form__row">

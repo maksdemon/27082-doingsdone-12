@@ -39,7 +39,8 @@
                     <div class="form__row">
                         <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
-                        <input class="form__input form__input--error" type="text" name="email" id="email" value="" placeholder="Введите e-mail">
+                        <input class="form__input form__input--error" type="text" name="email" id="email" value=""
+                               placeholder="Введите e-mail">
 
                         <p class="form__message"><?= $errors['email'] ?></p>
                     </div>
@@ -47,7 +48,8 @@
                     <div class="form__row">
                         <label class="form__label" for="password">Пароль <sup>*</sup></label>
 
-                        <input class="form__input" type="password" name="password" id="password" value="" placeholder="Введите пароль">
+                        <input class="form__input" type="password" name="password" id="password" value=""
+                               placeholder="Введите пароль">
                         <p class="form__message"><?= $errors['password'] ?></p>
                     </div>
 
@@ -62,7 +64,6 @@
 
     </div>
 </div>
-
 
 
 </body>
