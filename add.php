@@ -7,7 +7,7 @@ session_start();
 $user = $_SESSION["user"]["id"];
 $userID = (int)$user;
 
-require_once('initdb.php');
+require_once('inidb.php');
 require_once('helpers.php');
 $ts = time();
 

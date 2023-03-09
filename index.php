@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-
+require_once('inidb.php');
 $user = $_SESSION["user"]["id"];
 $userID = (int)$user;
 if (!isset($_SESSION["user"]["id"])) {
@@ -10,7 +10,7 @@ if (!isset($_SESSION["user"]["id"])) {
 }
 
 include('helpers.php');
-require_once('initdb.php');
+
 $ts = time();
 
 $show_complete_tasks = isset($_GET['show_completed']) ? (int)$_GET['show_completed'] : 1;

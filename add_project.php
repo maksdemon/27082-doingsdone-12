@@ -3,7 +3,7 @@
 
 session_start();
 
-require_once('initdb.php');
+require_once('inidb.php');
 $user = $_SESSION["user"]["id"];
 $userID = (int)$user;
 

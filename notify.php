@@ -4,7 +4,7 @@
  */
 
 require_once 'vendor/autoload.php';
-require_once 'initdb.php';
+require_once 'inidb.php';
 include('index.php');
 
 use Symfony\Component\Mailer\Mailer;
