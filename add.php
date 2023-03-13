@@ -3,7 +3,7 @@
 
 session_start();
 
-//echo ($user = $_SESSION["user"]);
+
 $user = $_SESSION["user"]["id"];
 $userID = (int)$user;
 
@@ -51,7 +51,7 @@ if (isset($cat_task_id)) {
 
 
 $projectuser = "SELECT * FROM project where user_id=$userID";
-//$projectuser1 = "SELECT * FROM project where id_user=2";
+
 $taskuser = "SELECT * FROM task WHERE USER=$userID";
 $name_nick = "SELECT * FROM  users WHERE id=$userID";
 
@@ -72,29 +72,17 @@ $result = mysqli_query($con, $projectuser);
 $task_done_sql = "UPDATE task SET STATUS = 1 WHERE id = $taskId";
 
 
-/*echo "<pre>";
-print_r ($task_sql_current);
-echo "</pre>";
-*/
+
 // список задач простым массивом из ассотиативного
-//$task_sql = array_column ((mysqli_fetch_all($result, MYSQLI_ASSOC)),"title");
+
 
 $task_sql2 = mysqli_fetch_all($result, MYSQLI_ASSOC);
-//print_r ($task_sql2);
-//$task_sql_project_id = array_column ((mysqli_fetch_all($result1, MYSQLI_ASSOC)),"id");
-//print_r ($task_sql_project_id);
 
-//$task_count = mysqli_fetch_all($task_sql_oll1 , MYSQLI_ASSOC);
-//в актуальном разрезе
 
-/*echo "<pre>";
-print_r( $task_count."test");
-echo "</pre>";
-*/
+
 //ник пользователя
 
 
-//$result_name_nick1 =mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC);
 $result_name_nick3 = array_column((mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC)), "name");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -111,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $project_err = filter_input(INPUT_POST, 'project', FILTER_VALIDATE_INT, ['options' => ['default' => 0]]);
 //проверка даты
     $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRING, ['options' => ['default' => '']]);
-    // print_r ($errors);
+
 
 
     if ($date) {
@@ -130,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (is_uploaded_file($_FILES['file']['tmp_name'])) { // была загрузка файла
         if ($_FILES['file']['error'] === UPLOAD_ERR_OK) { // Если загружен файл и нет ошибок, то сохраняем его в папку
             $original_name = $_FILES['file']['name'];
-            // $errors['file'] = 'нето';
+
             $target = __DIR__ . '/uploads/' . $original_name;
 
             // сохраняем файл в папке
@@ -141,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $errors['file'] = 'Ошибка ' . $_FILES['file']['error'] . ' при загрузке файла. <a href="https://www.php.net/manual/ru/features.file-upload.errors.php" target="_blank">Код ошибки</a>';
         }
     };
-    //  var_dump($_POST);
+
 }
 
 if ($errors == false && $date) {
@@ -150,8 +138,7 @@ if ($errors == false && $date) {
     // делаем подготовленное выражение
     $stmt = db_get_prepare_stmt($con, $add_task_sql, [
         $tsql_name,
-        //     $tsql_project=>'project2',
-        //   (int)$project_sq=>'project2',
+
         (int)$_POST['project2'],
         $user_id => $userID,
         $date,
