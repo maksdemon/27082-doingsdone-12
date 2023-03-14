@@ -61,7 +61,7 @@ $result_name_nick = mysqli_query($con, $name_nick);
 $sql_task_user = 'SELECT name FROM task WHERE `user`=2';
 $result_sql_user = mysqli_query($con, $sql_task_user);
 //пачка для выводу нужного проекта
-lumn ((mysqli_fetch_all($result, MYSQLI_ASSOC)),"title");
+
 
 $task_sql2 = mysqli_fetch_all($result, MYSQLI_ASSOC);
 //ник пользователя
