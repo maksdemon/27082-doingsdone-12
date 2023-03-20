@@ -3,7 +3,7 @@
 session_start();
 require_once('helpers.php');
 $ts = time();
-
+require_once('inidb.php');
 define('CACHE_DIR', basename(__DIR__ . DIRECTORY_SEPARATOR . 'cache'));
 define('UPLOAD_PATH', basename(__DIR__ . DIRECTORY_SEPARATOR . 'uploads'));
 //echo ($ts);
@@ -13,7 +13,7 @@ $show_complete_tasks = rand(0, 1);
 //var_dump ($_SESSION["user"]["id"]);
 
 //подключение к базе данных, вывод ошибки
-$con = mysqli_connect("localhost", "root", "", "doingsdone_db");
+
 mysqli_set_charset($con, "utf8");
 if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
