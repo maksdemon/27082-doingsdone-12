@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once('helpers.php');
 $ts = time();
@@ -31,6 +32,7 @@ function check_email_dublicate($con, $user_mail)
         return true;
     }
 }
+
 //$connect = connect();
 $users = $userID;
 //правка на авторизацию
@@ -53,28 +55,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!count($errors) and $user) {
         if (password_verify($user_guest['password'], $user['password'])) {
             $_SESSION['user'] = $user;
-        }
-        else {
+        } else {
             $errors['password'] = 'Неверный пароль';
         }
-    }
-    else {
+    } else {
         $errors['email'] = 'Такой пользователь не найден';
-
     }
     if (count($errors)) {
         $page_content = include_template('enter.php', ['form' => $user_guest, 'errors' => $errors]);
-}
-
-else {
+    } else {
         $page_content = include_template(
-            //'auth.php'
+        //'auth.php'
             header("Location: /")
         );
     }
-}
-
-else {
+} else {
     $page_content = include_template('auth.php', []);
 
     if (isset($_SESSION['user'])) {
@@ -82,7 +77,6 @@ else {
         exit();
     }
 }
-
 
 
 //var_dump($_POST);
@@ -107,12 +101,14 @@ $page_content3 = include_template('authf.php', [
     'show_complete_tasks' => $show_complete_tasks
 ]);
 
-$layout_content = include_template('layout-autorisation.php',
+$layout_content = include_template(
+    'layout-autorisation.php',
     [
         'content2' => $page_content3,
         //  'title1' => $title2,
         'name_user1' => $result_name_nick3
-    ]);
+    ]
+);
 
 
 //print ($page_content3 );
