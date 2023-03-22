@@ -2,13 +2,13 @@
 
 include('helpers.php');
 $ts = time();
-
+require_once('inidb.php');
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 $type2 = ["Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
 
 //подключение к базе данных, вывод ошибки
-$con = mysqli_connect("localhost", "root", "", "doingsdone_db");
+
 mysqli_set_charset($con, "utf8");
 if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());

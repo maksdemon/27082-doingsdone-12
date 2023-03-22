@@ -5,12 +5,13 @@ $user = $_SESSION["user"]["id"];
 $userID = (int)$user;
 require_once('helpers.php');
 $ts = time();
-//echo ($ts);
+require_once('inidb.php');
+
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
 //подключение к базе данных, вывод ошибки
-$con = mysqli_connect("localhost", "root", "", "doingsdone_db");
+
 mysqli_set_charset($con, "utf8");
 if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
@@ -21,7 +22,7 @@ if ($con == false) {
 
 //тестовый поиск id (ПОСЛЕ ИНДЕКС PHP ВЫВОДИТ ЧТО ВВЕЛИ)
 $cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-//echo "T".$cat_task_id."ЕУЧЕ";
+
 function check_email_dublicate($con, $user_mail)
 {
     $email = mysqli_real_escape_string($con, $user_mail);
@@ -110,9 +111,7 @@ if ($errors == false && $date) {
 
 
 $title2 = "Дела в порядке ";
-//$content2 = "";
-//$name_user= "КОнстантин";
-//$name_user= $result_name_nick3;
+
 $user_task = [];
 
 
