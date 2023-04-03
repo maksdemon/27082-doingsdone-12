@@ -4,7 +4,7 @@ include('helpers.php');
 require_once('inidb.php');
 
 $ts = time();
-//echo ($ts);
+
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 $type2 = ["Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
@@ -16,7 +16,6 @@ if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
 } else {
     //  print("Соединение установлено");
-    // выполнение запросов
 }
 
 //тестовый поиск id (ПОСЛЕ ИНДЕКС PHP ВЫВОДИТ ЧТО ВВЕЛИ)
@@ -56,16 +55,11 @@ $result1_oll = mysqli_query($con, $task_usersql_oll);
 $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
 
 $result = mysqli_query($con, $projectuser);
-
-
 $result_name_nick = mysqli_query($con, $name_nick);
 $sql_task_user = 'SELECT name FROM task WHERE `user`=$userID';
 $result_sql_user = mysqli_query($con, $sql_task_user);
-
 $task_sql2 = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
 $result_name_nick3 = array_column((mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC)), "name");
-
 
 $title2 = "Дела в порядке ";
 
@@ -76,11 +70,8 @@ $user_task = [];
 $page_content3 = include_template('main.php', [
 
     'type_project' => $task_sql2,
-
     'task_c_name' => $task_count1,
-
     'task_count_oll1' => $task_count_oll,
-
     'show_complete_tasks' => $show_complete_tasks
 ]);
 $layout_content = include_template(
@@ -107,10 +98,9 @@ function test_count($task_count_oll1, $cat_task): int
 }
 
 ;
-//echo $test_count ."111";
 
 
-// тестовая йункция подсчета оставвшегося времени
+// тестовая функция подсчета оставшегося времени
 function date_diff3($date)
 {
     $ts = time();

@@ -18,7 +18,7 @@ if ($con == false) {
 
 //тестовый поиск id (ПОСЛЕ ИНДЕКС PHP ВЫВОДИТ ЧТО ВВЕЛИ)
 $cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-//echo "T".$cat_task_id."ЕУЧЕ";
+
 
 
 if (isset($cat_task_id)) {
@@ -31,10 +31,10 @@ if (isset($cat_task_id)) {
         http_response_code(404);
     }
 } else {
-    $sort_project = "SELECT * FROM task WHERE USER=2 ";
+    $sort_project = "SELECT * FROM task WHERE USER=$userID ";
     $sort_project_vivod = mysqli_query($con, $sort_project);
     $task_sql_current = mysqli_fetch_all($sort_project_vivod, MYSQLI_ASSOC);
-    //oll
+
     $task_usersql_oll = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID ";
     $result1_oll = mysqli_query($con, $task_usersql_oll);
     $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
@@ -60,14 +60,11 @@ $result = mysqli_query($con, $projectuser);
 $result_name_nick = mysqli_query($con, $name_nick);
 $sql_task_user = 'SELECT name FROM task WHERE `user`=2';
 $result_sql_user = mysqli_query($con, $sql_task_user);
-//пачка для выводу нужного проекта
+//пачка для вывода нужного проекта
 
 
 $task_sql2 = mysqli_fetch_all($result, MYSQLI_ASSOC);
 //ник пользователя
-
-
-
 
 $result_name_nick3 = array_column((mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC)), "name");
 
@@ -76,7 +73,6 @@ $title2 = "Дела в порядке ";
 
 $name_user = $result_name_nick3;
 $user_task = [];
-
 
 //вариант вывод ключей из массива $test,"title")
 $page_content3 = include_template('add_main.php', [
@@ -112,7 +108,7 @@ function test_count($task_count_oll1, $cat_task): int
 //echo $test_count ."111";
 
 
-// тестовая йункция подсчета оставвшегося времени
+// тестовая функция подсчета оставшегося времени
 function date_diff3($date)
 {
     $ts = time();

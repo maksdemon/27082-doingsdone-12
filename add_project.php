@@ -10,12 +10,10 @@ $userID = (int)$user;
 
 require_once('helpers.php');
 $ts = time();
-//echo ($ts);
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 $type2 = ["Входящие", "Учеба", "Работа", "Домашние дела", "Авто"];
 //подключение к базе данных, вывод ошибки
-
 mysqli_set_charset($con, "utf8");
 if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
@@ -27,8 +25,7 @@ $cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
 
 if (isset($cat_task_id)) {
-    //пачка для выводу нужного проекта
-    // $sort_project="SELECT * FROM task WHERE USER=2 AND project_id=$cat_task_id";
+    //пачка для вывода нужного проекта
     $task_usersql = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID and project_id=$cat_task_id ";
     $result_sql_task = mysqli_query($con, $task_usersql);
     $task_count1 = mysqli_fetch_all($result_sql_task, MYSQLI_ASSOC);
@@ -40,7 +37,6 @@ if (isset($cat_task_id)) {
     $sort_project = "SELECT * FROM task WHERE USER=$userID ";
     $sort_project_vivod = mysqli_query($con, $sort_project);
     $task_sql_current = mysqli_fetch_all($sort_project_vivod, MYSQLI_ASSOC);
-    //oll
     $task_usersql_oll = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID ";
     $result1_oll = mysqli_query($con, $task_usersql_oll);
     $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
@@ -56,8 +52,6 @@ $name_nick = "SELECT * FROM  users WHERE id=$userID";
 
 $result2_oll_user = mysqli_query($con, $taskuser);
 $task_count_oll2 = mysqli_fetch_all($result2_oll_user, MYSQLI_ASSOC);
-
-
 $task_usersql_oll = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID ";
 $result1_oll = mysqli_query($con, $task_usersql_oll);
 $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
@@ -110,12 +104,8 @@ $user_task = [];
 
 //вариант вывод ключей из массива $test,"title")
 $page_content3 = include_template('../pages/form-project.php', [
-    // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
     'type_project' => $task_sql2,
-    //  'link_project'=>$task_sql_project_id,
     'task_c_name' => $task_count1,
-    //'task_c_name'=>$task_count_oll,
-    //'task_c_name2'=>$task_count,
     'task_count_oll1' => $task_count_oll,
     'errors' => $errors,
     'show_complete_tasks' => $show_complete_tasks
@@ -131,7 +121,7 @@ $layout_content = include_template(
 );
 
 
-//print ($page_content3 );
+
 print ($layout_content);
 
 //подсчет количества задач
@@ -149,7 +139,7 @@ function test_count($task_count_oll1, $cat_task): int
 ;
 
 
-// тестовая йункция подсчета оставвшегося времени
+// тестовая функция подсчета оставшегося времени
 function date_diff3($date)
 {
     $ts = time();

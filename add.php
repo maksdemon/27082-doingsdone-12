@@ -1,9 +1,6 @@
 <?php
 
-
 session_start();
-
-
 $user = $_SESSION["user"]["id"];
 $userID = (int)$user;
 
@@ -27,7 +24,7 @@ $cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
 
 if (isset($cat_task_id)) {
-    //пачка для выводу нужного проекта
+    //пачка для вывода нужного проекта
 
     $task_usersql = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID and project_id=$cat_task_id ";
     $result_sql_task = mysqli_query($con, $task_usersql);
@@ -41,7 +38,6 @@ if (isset($cat_task_id)) {
     $sort_project = "SELECT * FROM task WHERE USER=$userID ";
     $sort_project_vivod = mysqli_query($con, $sort_project);
     $task_sql_current = mysqli_fetch_all($sort_project_vivod, MYSQLI_ASSOC);
-    //oll
     $task_usersql_oll = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID ";
     $result1_oll = mysqli_query($con, $task_usersql_oll);
     $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
@@ -73,15 +69,12 @@ $task_done_sql = "UPDATE task SET STATUS = 1 WHERE id = $taskId";
 
 
 
-// список задач простым массивом из ассотиативного
+// список задач простым массивом из ассоциативного
 
 
 $task_sql2 = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-
-
 //ник пользователя
-
 
 $result_name_nick3 = array_column((mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC)), "name");
 
@@ -94,12 +87,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $result_name_nick3 = array_column((mysqli_fetch_all($result_name_nick, MYSQLI_ASSOC)), "name");
 
-//проверка что есть название
+//проверка ,что есть название
 
     $project_err = filter_input(INPUT_POST, 'project', FILTER_VALIDATE_INT, ['options' => ['default' => 0]]);
 //проверка даты
     $date = filter_input(INPUT_POST, 'date', FILTER_SANITIZE_STRING, ['options' => ['default' => '']]);
-
 
 
     if ($date) {
@@ -138,7 +130,6 @@ if ($errors == false && $date) {
     // делаем подготовленное выражение
     $stmt = db_get_prepare_stmt($con, $add_task_sql, [
         $tsql_name,
-
         (int)$_POST['project2'],
         $user_id => $userID,
         $date,
@@ -160,12 +151,11 @@ $user_task = [];
 
 //вариант вывод ключей из массива $test,"title")
 $page_content3 = include_template('../pages/form-task.php', [
-    // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
+
     'type_project' => $task_sql2,
-    //  'link_project'=>$task_sql_project_id,
+
     'task_c_name' => $task_count1,
-    //'task_c_name'=>$task_count_oll,
-    //'task_c_name2'=>$task_count,
+
     'task_count_oll1' => $task_count_oll,
     'errors' => $errors,
     'show_complete_tasks' => $show_complete_tasks
@@ -181,7 +171,7 @@ $layout_content = include_template(
 );
 
 
-//print ($page_content3 );
+
 print ($layout_content);
 
 //подсчет количества задач
@@ -197,10 +187,10 @@ function test_count($task_count_oll1, $cat_task): int
 }
 
 ;
-//echo $test_count ."111";
 
 
-// тестовая йункция подсчета оставвшегося времени
+
+// тестовая функция подсчета оставшегося времени
 function date_diff3($date)
 {
     $ts = time();

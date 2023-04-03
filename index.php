@@ -8,11 +8,8 @@ if (!isset($_SESSION["user"]["id"])) {
     header("location: /templates/guestf.php");
     exit;
 }
-
 include('helpers.php');
-
 $ts = time();
-
 $show_complete_tasks = isset($_GET['show_completed']) ? (int)$_GET['show_completed'] : 1;
 $cat_task_id2 = isset($_GET['filter']) ? (string )$_GET['show_completed'] : '';
 
@@ -30,15 +27,14 @@ if ($con == false) {
 //тестовый поиск id (ПОСЛЕ ИНДЕКС PHP ВЫВОДИТ ЧТО ВВЕЛИ)
 $cat_task_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 $cat_task_filter = filter_input(INPUT_GET, 'filter', FILTER_SANITIZE_STRING);
-//echo ($cat_task_filter);
+
 if ($cat_task_id) {
     $cat_task_id_show = "&id=" . $cat_task_id;
 }
 
-
+//категория задач
 if (isset($cat_task_id)) {
     //пачка для выводу нужного проекта
-    // $sort_project="SELECT * FROM task WHERE USER=2 AND project_id=$cat_task_id";
     $task_usersql = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID and project_id=$cat_task_id ";
     $result_sql_task = mysqli_query($con, $task_usersql);
     $task_count1 = mysqli_fetch_all($result_sql_task, MYSQLI_ASSOC);
@@ -63,15 +59,15 @@ if (isset($_GET['q'])) {
     $search = trim(filter_input(INPUT_GET, 'q', FILTER_SANITIZE_SPECIAL_CHARS));
     if (!empty($search)) {
         $con->set_charset("utf8mb4");
-        // $search_q = "SELECT * FROM task where user=$userID and MATCH(name) AGAINST (?)";
+
         $search_q = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID AND MATCH(name) AGAINST ( '$search')";
         $search_f = mysqli_query($con, $search_q);
-        //  $task_count1=0;
+
         $task_count1 = $search_f;
         $records_count = mysqli_num_rows($task_count1);
         if ($records_count == 0) {
             $errorsearch2 = "Ничего не найдено по вашему запросу ";
-            // echo ($errorsearch2);
+
         }
     }
 }
@@ -91,7 +87,7 @@ if ($result1_oll) { // всегда проверять, есть ли резул
     $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
 }
 $result = mysqli_query($con, $projectuser);
-//$result1 = mysqli_query($con, $task_usersql);
+
 
 $result_name_nick = mysqli_query($con, $name_nick);
 $sql_task_user = "SELECT name FROM task WHERE `user`=$userID";
@@ -109,10 +105,10 @@ $title2 = "Дела в порядке ";
 $user_task = [];
 
 
-//смена статуса выполнения
 
 
-//получение спика задач без выполненных
+
+//получение списка задач без выполненных
 $task_active = "SELECT * FROM task where USER =$userID AND STATUS=0";
 $result_task_active = mysqli_query($con, $task_active);
 $task_sql_task_active = mysqli_fetch_all($result_task_active, MYSQLI_ASSOC);
@@ -121,26 +117,23 @@ if ($_GET['show_completed'] == 0) {
     $search = trim(filter_input(INPUT_GET, 'show_completed', FILTER_SANITIZE_SPECIAL_CHARS));
     if (isset($_GET['show_completed'])) {
         $con->set_charset("utf8mb4");
-        // $search_q = "SELECT * FROM task where user=$userID and MATCH(name) AGAINST (?)";
+
         if (isset($cat_task_id)) {
-            $search_q = " SELECT * FROM task where USER =$userID AND STATUS=0 AND project_id =$cat_task_id";
+            $search_q = " SELECT * FROM task where USER =$userID AND STATUS=0 AND project_id =$cat_task_id" ;
             $search_f = mysqli_query($con, $search_q);
-            //  $task_count1=0;
             $task_count1 = $search_f;
             $records_count = mysqli_num_rows($task_count1);
             if ($records_count == 0) {
                 $errorsearch2 = "Ничего не найдено по вашему запросу ";
-                // echo ($errorsearch2);
+
             }
         } else {
-            $search_q = "SELECT name FROM task where USER =$userID AND STATUS=0";
+            $search_q = "SELECT * FROM task where USER =$userID AND STATUS=0";
             $search_f = mysqli_query($con, $search_q);
-            //  $task_count1=0;
             $task_count1 = $search_f;
             $records_count = mysqli_num_rows($task_count1);
             if ($records_count == 0) {
                 $errorsearch2 = "Ничего не найдено по вашему запросу ";
-                // echo ($errorsearch2);
             }
         }
     } else {
@@ -148,7 +141,7 @@ if ($_GET['show_completed'] == 0) {
 }
 
 
-//задчи выполнено/невыполнено
+//задачи выполнено/не выполнено
 $task_id_rev = '';
 
 if (isset($_GET['task_id'])) {
@@ -157,7 +150,7 @@ if (isset($_GET['task_id'])) {
 
 
 if ($task_id_rev) {
-    // echo('test0');
+
     $task_status = "SELECT * FROM task  WHERE id = $task_id_rev";
     $result_task_status = mysqli_query($con, $task_status);
     $task_sql_task_status = mysqli_fetch_all($result_task_status, MYSQLI_ASSOC);
@@ -165,13 +158,13 @@ if ($task_id_rev) {
     if ($task_sql_task_status[0] ["STATUS"] === '0') {
         $sql = "UPDATE task SET STATUS = 1 WHERE id = $task_id_rev";
         $result = mysqli_query($con, $sql);
-        //  header("Location: /(if(isset($cat_task_id))id=$cat_task_id");
+
         header("Location: /");
     } else {
         if ($task_sql_task_status[0] ["STATUS"] === '1') {
             $sql = "UPDATE task SET STATUS = 0 WHERE id = $task_id_rev";
             $result = mysqli_query($con, $sql);
-            //   header("Location: /".if(isset($cat_task_id))id=$cat_task_id);
+
             header("Location: /");
         }
     }
@@ -192,7 +185,6 @@ if (isset($safeFilter)) {
         foreach ($result_sql_task as $task) {
             $task_new2 = 0;
             if (strtotime($task['deadline']) < strtotime(date('Y-m-d')) + 86400) {
-                // array_push( $task_count1, $task);
                 $task_new[$i] = $task;
                 $i++;
             };
@@ -208,7 +200,6 @@ if (isset($safeFilter)) {
         foreach ($result_sql_task as $task) {
             $task_new2 = 0;
             if (strtotime($task['deadline']) == strtotime(date('Y-m-d')) + 86400) {
-                // array_push( $task_count1, $task);
                 $task_new[$i] = $task;
                 $i++;
             };
@@ -224,7 +215,6 @@ if (isset($safeFilter)) {
         foreach ($result_sql_task as $task) {
             $task_new2 = 0;
             if (strtotime($task['deadline']) == strtotime(date('Y-m-d'))) {
-                // array_push( $task_count1, $task);
                 $task_new[$i] = $task;
                 $i++;
             };
@@ -265,21 +255,16 @@ function filterExpired($task_count_oll)
 ;
 
 
-//вариант вывод ключей из массива $test,"title")
+//вариант вывода ключей из массива $test,"title")
 $page_content3 = include_template('main.php', [
-    // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
     'type_project' => $task_sql2,
-    //  'link_project'=>$task_sql_project_id,
     'task_c_name' => $task_count1,
     'errorsearch2' => $errorsearch2,
-    // 'task_c_name2'=>$task_count,
     'task_count_oll1' => $task_count_oll,
-    //  "task_search" =>  $search_result,
     'id_cat' => $cat_task_id,
     'id_task_time' => $cat_task_filter,
     'id_task_showid' => $cat_task_id_show,
     'id_task_showid2' => $cat_task_id2,
-
     'show_complete_tasks' => $show_complete_tasks
 ]);
 
@@ -308,11 +293,10 @@ function test_count($task_count_oll1, $cat_task): int
     return $count;
 }
 
-;
-//echo $test_count ."111";
 
 
-// тестовая йункция подсчета оставвшегося времени
+
+// тестовая функция подсчета оставшегося времени
 function date_diff3($date)
 {
     $ts = time();

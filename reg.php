@@ -17,7 +17,7 @@ if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
 } else {
 //      print("Соединение установлено");
-    // выполнение запросов
+
 }
 
 //тестовый поиск id (ПОСЛЕ ИНДЕКС PHP ВЫВОДИТ ЧТО ВВЕЛИ)
@@ -93,8 +93,6 @@ if ($errors == false && $date) {
     // делаем подготовленное выражение
     $stmt = db_get_prepare_stmt($con, $add_task_sql, [
         $email,
-        //     $tsql_project=>'project2',
-        //   (int)$project_sq=>'project2',
         (int)$_POST['project2'],
         $user_id => $userID,
         $date,
@@ -107,7 +105,7 @@ if ($errors == false && $date) {
 } else {
 }
 //регистрация пользователя отправка в базу данных и редирект на главную
-//скрипт поиска ошибки
+
 
 
 $title2 = "Дела в порядке ";
@@ -117,12 +115,9 @@ $user_task = [];
 
 //вариант вывод ключей из массива $test,"title")
 $page_content3 = include_template('../register.php', [
-    // вывод из простого mysqli_fetch_all 'type1'=> array_column ($test,"title"),
+
     'type_project' => $task_sql2,
-    //  'link_project'=>$task_sql_project_id,
     'task_c_name' => $task_count1,
-    //'task_c_name'=>$task_count_oll,
-    //'task_c_name2'=>$task_count,
     'task_count_oll1' => $task_count_oll,
     'errors' => $errors,
     'show_complete_tasks' => $show_complete_tasks
@@ -138,7 +133,6 @@ $layout_content = include_template(
 );
 
 
-//print ($page_content3 );
 print ($layout_content);
 
 
