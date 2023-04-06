@@ -26,7 +26,7 @@ include('functions.php'); ?>
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus" href="add3.php">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus" href="add.php">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
@@ -55,7 +55,7 @@ include('functions.php'); ?>
             <main class="content__main">
                 <h2 class="content__main-heading">Добавление задачи</h2>
 
-                <form class="form" action="index.html" method="post" autocomplete="off">
+                <form class="form" action="/add.php" method="post" autocomplete="off">
                     <div class="form__row">
                         <label class="form__label" for="name">Название <sup>*</sup></label>
 
@@ -107,7 +107,7 @@ include('functions.php'); ?>
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <a class="main-footer__button button button--plus" href="form-task.html">Добавить задачу</a>
+        <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
 
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
