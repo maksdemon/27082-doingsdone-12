@@ -3,7 +3,7 @@
 session_start();
 $user = $_SESSION["user"]["id"];
 $userID = (int)$user;
-
+//if (issset ($_SESSION["user"]["id"])) {$userId = $_SESSION["user"]["id"]; }
 require_once('inidb.php');
 require_once('helpers.php');
 $ts = time();
@@ -36,13 +36,13 @@ if (isset($cat_task_id)) {
     }
 } else {
     $sort_project = "SELECT * FROM task WHERE USER=$userID ";
-    $sort_project_vivod = mysqli_query($con, $sort_project);
-    $task_sql_current = mysqli_fetch_all($sort_project_vivod, MYSQLI_ASSOC);
-    $task_usersql_oll = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID ";
-    $result1_oll = mysqli_query($con, $task_usersql_oll);
-    $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
+    $sorted_projects_tasks = mysqli_query($con, $sort_project);
+    $task_sql_current = mysqli_fetch_all($sorted_projects_tasks, MYSQLI_ASSOC);
+    $task_usersql_all = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID ";
+    $result1_all = mysqli_query($con, $task_usersql_all);
+    $task_count_all = mysqli_fetch_all($result1_all, MYSQLI_ASSOC);
     $task_count1 = 0;
-    $task_count1 = $task_count_oll;
+    $task_count1 = $task_count_all;
 }
 
 
@@ -51,21 +51,21 @@ $projectuser = "SELECT * FROM project where user_id=$userID";
 $taskuser = "SELECT * FROM task WHERE USER=$userID";
 $name_nick = "SELECT * FROM  users WHERE id=$userID";
 
-$result2_oll_user = mysqli_query($con, $taskuser);
-$task_count_oll2 = mysqli_fetch_all($result2_oll_user, MYSQLI_ASSOC);
+$result2_all_user = mysqli_query($con, $taskuser);
+$task_count_all2 = mysqli_fetch_all($result2_all_user, MYSQLI_ASSOC);
 
 // список задач с группами
 
-$task_usersql_oll = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID AND task.STATUS = 0 ";
-$result1_oll = mysqli_query($con, $task_usersql_oll);
-$task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
+$task_usersql_all = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID AND task.STATUS = 0 ";
+$result1_all = mysqli_query($con, $task_usersql_all);
+$task_count_all = mysqli_fetch_all($result1_all, MYSQLI_ASSOC);
 
 $result_name_nick = mysqli_query($con, $name_nick);
 $sql_task_user = 'SELECT * FROM task WHERE `user`=$userID';
 $result_sql_user = mysqli_query($con, $sql_task_user);
 $result = mysqli_query($con, $projectuser);
 
-$task_done_sql = "UPDATE task SET STATUS = 1 WHERE id = $taskId";
+//$task_done_sql = "UPDATE task SET STATUS = 1 WHERE id = $taskId";
 
 
 
@@ -156,7 +156,7 @@ $page_content3 = include_template('../pages/form-task.php', [
 
     'task_c_name' => $task_count1,
 
-    'task_count_oll1' => $task_count_oll,
+    'task_count_all1' => $task_count_all,
     'errors' => $errors,
     'show_complete_tasks' => $show_complete_tasks
 ]);
@@ -175,10 +175,10 @@ $layout_content = include_template(
 print ($layout_content);
 
 //подсчет количества задач
-function test_count($task_count_oll1, $cat_task): int
+function test_count($task_count_all1, $cat_task): int
 {
     $count = 0;
-    foreach ($task_count_oll1 as $value) {
+    foreach ($task_count_all1 as $value) {
         if ($value ['title'] == $cat_task) {
             $count++;
         }

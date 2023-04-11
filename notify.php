@@ -34,25 +34,25 @@ $res = mysqli_query($con, $sql);
 
 if ($res && mysqli_num_rows($res)) {
     $rezult = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    $itog = [];
+    $total = [];
     foreach ($rezult as $value) {
         $email = $value['email'];
 
-        if (!array_key_exists($email, $itog)) {
-            $itog[$email] = [
+        if (!array_key_exists($email, $total)) {
+            $total[$email] = [
                 'username' => $value['name'],
                 'email' => $value['email'],
                 'task' => [],
 
             ];
         }
-        $itog[$email]['task'][] = $value['task_name'];
+        $total[$email]['task'][] = $value['task_name'];
     }
 } else {
-    $itog = [];
+    $total = [];
 }
-if ($itog) {
-    foreach ($itog as $userTask) {
+if ($total) {
+    foreach ($total as $userTask) {
         $mailText = "\n" . 'Рассылка' . ' ' . 'Уважаемый пользователь, ' . $userTask['username'] . "\n" . 'У Вас запланирована задача - ' . "\n";
 
         foreach ($userTask['task'] as $todayTask) {

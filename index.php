@@ -3,6 +3,7 @@
 session_start();
 require_once('inidb.php');
 $user = $_SESSION["user"]["id"];
+//if (issset ($_SESSION["user"]["id"])) {$userId = $_SESSION["user"]["id"]; }
 $userID = (int)$user;
 if (!isset($_SESSION["user"]["id"])) {
     header("location: /templates/guestf.php");
@@ -46,14 +47,14 @@ if (isset($cat_task_id)) {
     }
 } else {
     $sort_project = "SELECT * FROM task WHERE user= $userID ";
-    $sort_project_vivod = mysqli_query($con, $sort_project);
-    $task_sql_current = mysqli_fetch_all($sort_project_vivod, MYSQLI_ASSOC);
-    //oll
-    $task_usersql_oll = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID ";
-    $result1_oll = mysqli_query($con, $task_usersql_oll);
-    $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
+    $sorted_projects_tasks = mysqli_query($con, $sort_project);
+    $task_sql_current = mysqli_fetch_all($sorted_projects_tasks, MYSQLI_ASSOC);
+    //all
+    $task_usersql_all = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user=$userID ";
+    $result1_all = mysqli_query($con, $task_usersql_all);
+    $task_count_all = mysqli_fetch_all($result1_all, MYSQLI_ASSOC);
     $task_count1 = 0;
-    $task_count1 = $task_count_oll;
+    $task_count1 = $task_count_all;
 }
 if (isset($_GET['q'])) {
     $search = trim(filter_input(INPUT_GET, 'q', FILTER_SANITIZE_SPECIAL_CHARS));
@@ -79,12 +80,12 @@ $taskuser = "SELECT name FROM task WHERE USER=$userID";
 $name_nick = "SELECT * FROM  users WHERE id=$userID";
 // список задач с группами
 
-$task_usersql_oll = "SELECT * FROM task LEFT JOIN project on task.project_id=project.id where user=$userID AND task.STATUS = 0 ";
-$result1_oll = mysqli_query($con, $task_usersql_oll);
+$task_usersql_all = "SELECT * FROM task LEFT JOIN project on task.project_id=project.id where user=$userID AND task.STATUS = 0 ";
+$result1_all = mysqli_query($con, $task_usersql_all);
 
 
-if ($result1_oll) { // всегда проверять, есть ли результат
-    $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
+if ($result1_all) { // всегда проверять, есть ли результат
+    $task_count_all = mysqli_fetch_all($result1_all, MYSQLI_ASSOC);
 }
 $result = mysqli_query($con, $projectuser);
 
@@ -224,32 +225,32 @@ if (isset($safeFilter)) {
 }
 
 
-function filterToday($task_count_oll)
+function filterToday($task_count_all)
 {
-    $task_count_oll = [];
-    foreach ($task_count_oll as $task) :
+    $task_count_all = [];
+    foreach ($task_count_all as $task) :
         if (strtotime($task['deadline']) == strtotime(date('Y-m-d'))) {
-            array_push($task_count_oll, $task);
+            array_push($task_count_all, $task);
         };
     endforeach;
-    return $task_count_oll;
-    //  var_dump($task_count_oll);
+    return $task_count_all;
+    //  var_dump($task_count_all);
 
 }
 
 ;
 
 
-function filterExpired($task_count_oll)
+function filterExpired($task_count_all)
 {
     $ts = time();
-    $task_count_oll = [];
-    foreach ($task_count_oll as $task) :
+    $task_count_all = [];
+    foreach ($task_count_all as $task) :
         if (strtotime($task['deadline']) < strtotime($ts)) {
-            array_push($task_count_oll, $task);
+            array_push($task_count_all, $task);
         };
     endforeach;
-    return $task_count_oll;
+    return $task_count_all;
 }
 
 ;
@@ -260,7 +261,7 @@ $page_content3 = include_template('main.php', [
     'type_project' => $task_sql2,
     'task_c_name' => $task_count1,
     'errorsearch2' => $errorsearch2,
-    'task_count_oll1' => $task_count_oll,
+    'task_count_all1' => $task_count_all,
     'id_cat' => $cat_task_id,
     'id_task_time' => $cat_task_filter,
     'id_task_showid' => $cat_task_id_show,
@@ -282,10 +283,10 @@ $layout_content = include_template(
 print ($layout_content);
 
 //подсчет количества задач
-function test_count($task_count_oll1, $cat_task): int
+function test_count($task_count_all1, $cat_task): int
 {
     $count = 0;
-    foreach ($task_count_oll1 as $value) {
+    foreach ($task_count_all1 as $value) {
         if ($value ['title'] == $cat_task) {
             $count++;
         }

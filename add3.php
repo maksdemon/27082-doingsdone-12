@@ -45,7 +45,7 @@ include('functions.php'); ?>
                     <ul class="main-navigation__list">
                         <?= $task_sql2 ?>
                     </ul>
-                </nav>
+
                 </nav>
 
                 <a class="button button--transparent button--plus content__side-button" href="add_project.php">Добавить

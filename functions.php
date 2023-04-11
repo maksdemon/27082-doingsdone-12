@@ -33,14 +33,14 @@ if (isset($cat_task_id)) {
     }
 } else {
     $sort_project = "SELECT * FROM task WHERE USER=2 ";
-    $sort_project_vivod = mysqli_query($con, $sort_project);
-    $task_sql_current = mysqli_fetch_all($sort_project_vivod, MYSQLI_ASSOC);
-    //oll
-    $task_usersql_oll = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID ";
-    $result1_oll = mysqli_query($con, $task_usersql_oll);
-    $task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
+    $sorted_projects_tasks = mysqli_query($con, $sort_project);
+    $task_sql_current = mysqli_fetch_all($sorted_projects_tasks, MYSQLI_ASSOC);
+    //all
+    $task_usersql_all = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID ";
+    $result1_all = mysqli_query($con, $task_usersql_all);
+    $task_count_all = mysqli_fetch_all($result1_all, MYSQLI_ASSOC);
     $task_count1 = 0;
-    $task_count1 = $task_count_oll;
+    $task_count1 = $task_count_all;
 
 }
 
@@ -50,9 +50,9 @@ $projectuser1 = "SELECT * FROM project where user_id=$userID";
 $taskuser = "SELECT name FROM task WHERE USER=$userID";
 $name_nick = "SELECT * FROM  users WHERE id=$userID";
 
-$task_usersql_oll = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID ";
-$result1_oll = mysqli_query($con, $task_usersql_oll);
-$task_count_oll = mysqli_fetch_all($result1_oll, MYSQLI_ASSOC);
+$task_usersql_all = "SELECT * FROM project LEFT JOIN task on task.project_id=project.id where user_id=$userID ";
+$result1_all = mysqli_query($con, $task_usersql_all);
+$task_count_all = mysqli_fetch_all($result1_all, MYSQLI_ASSOC);
 
 $result = mysqli_query($con, $projectuser);
 $result_name_nick = mysqli_query($con, $name_nick);
@@ -71,7 +71,7 @@ $page_content3 = include_template('main.php', [
 
     'type_project' => $task_sql2,
     'task_c_name' => $task_count1,
-    'task_count_oll1' => $task_count_oll,
+    'task_count_all1' => $task_count_all,
     'show_complete_tasks' => $show_complete_tasks
 ]);
 $layout_content = include_template(
@@ -86,10 +86,10 @@ $layout_content = include_template(
 
 
 //подсчет количества задач
-function test_count($task_count_oll1, $cat_task): int
+function test_count($task_count_all1, $cat_task): int
 {
     $count = 0;
-    foreach ($task_count_oll1 as $value) {
+    foreach ($task_count_all1 as $value) {
         if ($value ['title'] == $cat_task) {
             $count++;
         }

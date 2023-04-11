@@ -26,7 +26,7 @@
                                 <a class="main-navigation__list-item-link"
                                    href="/?id=<?= $typ['id']; ?>"><?= htmlspecialchars($typ['title']); ?></a>
                                 <span class="main-navigation__list-item-count"><?= test_count(
-                                        $task_count_oll1,
+                                        $task_count_all1,
                                         $typ['title']
                                     ) ?></span>
                             </li>

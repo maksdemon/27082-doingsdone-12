@@ -118,7 +118,7 @@ $page_content3 = include_template('../register.php', [
 
     'type_project' => $task_sql2,
     'task_c_name' => $task_count1,
-    'task_count_oll1' => $task_count_oll,
+    'task_count_all1' => $task_count_all,
     'errors' => $errors,
     'show_complete_tasks' => $show_complete_tasks
 ]);
