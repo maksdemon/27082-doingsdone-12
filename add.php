@@ -1,9 +1,8 @@
 <?php
 
 session_start();
-$user = $_SESSION["user"]["id"];
-$userID = (int)$user;
-//if (issset ($_SESSION["user"]["id"])) {$userId = $_SESSION["user"]["id"]; }
+
+if (isset ($_SESSION["user"]["id"])) {$userID = $_SESSION["user"]["id"]; }
 require_once('inidb.php');
 require_once('helpers.php');
 $ts = time();
@@ -65,7 +64,7 @@ $sql_task_user = 'SELECT * FROM task WHERE `user`=$userID';
 $result_sql_user = mysqli_query($con, $sql_task_user);
 $result = mysqli_query($con, $projectuser);
 
-//$task_done_sql = "UPDATE task SET STATUS = 1 WHERE id = $taskId";
+
 
 
 

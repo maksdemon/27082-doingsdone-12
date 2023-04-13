@@ -2,9 +2,9 @@
 
 session_start();
 require_once('inidb.php');
-$user = $_SESSION["user"]["id"];
-//if (issset ($_SESSION["user"]["id"])) {$userId = $_SESSION["user"]["id"]; }
-$userID = (int)$user;
+
+if (isset ($_SESSION["user"]["id"])) {$userID = $_SESSION["user"]["id"]; }
+
 if (!isset($_SESSION["user"]["id"])) {
     header("location: /templates/guestf.php");
     exit;
@@ -22,7 +22,7 @@ mysqli_set_charset($con, "utf8");
 if ($con == false) {
     print("Ошибка подключения: " . mysqli_connect_error());
 } else {
-    //  print("Соединение установлено");
+
 }
 
 //тестовый поиск id (ПОСЛЕ ИНДЕКС PHP ВЫВОДИТ ЧТО ВВЕЛИ)

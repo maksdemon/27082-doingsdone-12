@@ -5,7 +5,8 @@ session_start();
 
 require_once('inidb.php');
 $user = $_SESSION["user"]["id"];
-$userID = (int)$user;
+if (isset ($_SESSION["user"]["id"])) {$userID = $_SESSION["user"]["id"]; }
+
 
 
 require_once('helpers.php');
