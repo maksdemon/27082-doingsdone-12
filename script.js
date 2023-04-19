@@ -23,9 +23,9 @@ if ($taskCheckboxes.length) {
 
       var is_checked = +el.checked;
       var task_id = el.getAttribute('value');
+      var project_id = el.dataset.project
 
-      var url = '/index.php?task_id=' + task_id + '&check=' + is_checked;
-      window.location = url;
+      window.location = '/?task_id=' + task_id + '&check=' + is_checked + '&project_id=' + project_id;
     }
   });
 }

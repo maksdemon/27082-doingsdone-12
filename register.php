@@ -1,76 +1,57 @@
-<!DOCTYPE html>
-<html lang="ru">
+<?php
 
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/normalize.css">
-    <link rel="stylesheet" href="../css/style.css">
-</head>
+require_once('init_db.php');
+require_once('helpers.php');
+include('functions.php');
 
-<body>
-<h1 class="visually-hidden">Дела в порядке</h1>
+$errors = [];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $required_fields = ['email', 'password', 'name'];
 
-<div class="page-wrapper">
-    <div class="container container--with-sidebar">
-        <header class="main-header">
-            <a href="/">
-                <img src="../img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
-            </a>
+    $user_name = $_POST['name'];
+    $user_mail = $_POST['email'];
+    $user_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-            <div class="main-header__side">
-                <a class="main-header__side-item button button--transparent" href="auth.php">Войти</a>
-            </div>
-        </header>
+    //проверка на пустые поля
+    foreach ($required_fields as $field) {
+        if (empty($_POST[$field])) {
+            $errors[$field] = 'Поле не заполнено';
+        }
+    }
 
-        <div class="content">
-            <section class="content__side">
-                <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
+    if (!empty($user_mail)) {
+        if (!filter_var($user_mail, FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'E-mail введён некорректно';
+        } elseif (check_email_duplicate($con, $user_mail)) {
+            $errors['email'] = 'Пользователь с этим email уже зарегистрирован';
+        }
+    }
+    if (empty($errors)) {
+        insert_user_to_db($con, [$user_name, $user_mail, $user_password]);
+        header('Location: /');
+    } else {
+        $page_content = include_template(
+            'register.php',
+            [
+                'errors' => $errors
+            ]
+        );
+    }
+}
 
-                <a class="button button--transparent content__side-button" href="auth.php">Войти</a>
-            </section>
+$page_content = include_template('register.php', [
+    'errors' => $errors,
+]);
 
-            <main class="content__main">
-                <h2 class="content__main-heading">Регистрация аккаунта</h2>
+$layout_content = include_template(
+    'layout.php',
+    [
+        'content' => $page_content,
+        'title'   => $config['title'],
+    ]
+);
 
-                <form class="form" action="reg.php" method="post" autocomplete="off">
-                    <div class="form__row">
-                        <label class="form__label" for="email">E-mail <sup>*</sup></label>
-
-                        <input class="form__input form__input--error" type="text" name="email" id="email" value=""
-                               placeholder="Введите e-mail">
-
-                        <p class="form__message"><?= $errors['email'] ?></p></p>
-                    </div>
-
-                    <div class="form__row">
-                        <label class="form__label" for="password">Пароль <sup>*</sup></label>
-
-                        <input class="form__input" type="password" name="password" id="password" value=""
-                               placeholder="Введите пароль">
-                        <p class="form__message"><?= $errors['password'] ?></p></p>
-                    </div>
-
-                    <div class="form__row">
-                        <label class="form__label" for="name">Имя <sup>*</sup></label>
-
-                        <input class="form__input" type="text" name="name" id="name" value="" placeholder="Введите имя">
-                        <p class="form__message"><?= $errors['name'] ?></p></p>
-                    </div>
-
-                    <div class="form__row form__row--controls">
+print ($layout_content);
 
 
-                        <input class="button" type="submit" name="" value="Зарегистрироваться">
-                    </div>
-                </form>
-            </main>
-        </div>
-    </div>
-</div>
 
-<footer class="main-footer">
-
-</footer>
-</body>
-</html>

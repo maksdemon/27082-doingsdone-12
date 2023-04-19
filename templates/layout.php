@@ -1,51 +1,54 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
-    <title><?= $title1 ?></title>
+    <title><?= $title ?></title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/flatpickr.min.css">
 </head>
-
 <body>
-
 <h1 class="visually-hidden">Дела в порядке</h1>
-
 <div class="page-wrapper">
     <div class="container container--with-sidebar">
-        <header class="main-header">
-            <a href="/">
-                <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
-            </a>
+        <?php if (isset($_SESSION["user"]["id"])): ?>
+            <header class="main-header">
+                <a href="/">
+                    <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
+                </a>
+                <div class="main-header__side">
+                    <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
 
-            <div class="main-header__side">
-                <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
-
-                <div class="main-header__side-item user-menu">
-                    <div class="user-menu__data">
-                        <p><?= $name_user1[0]; ?></p>
-
-                        <a href="/logout.php">Выйти</a>
+                    <div class="main-header__side-item user-menu">
+                        <div class="user-menu__data">
+                            <p><?= $name_user ?></p>
+                            <a href="/logout.php">Выйти</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </header>
-        <div class="content"><?= $content2; ?></div>
+            </header>
+        <?php else: ?>
+            <header class="main-header">
+                <a href="/">
+                    <img src="../img/logo.png" width="153" height="42" alt="Логитип Дела в порядке">
+                </a>
+                <div class="main-header__side">
+                    <a class="main-header__side-item button button--transparent" href="/auth.php">Войти</a>
+                </div>
+            </header>
+        <?php endif; ?>
+        <div class="content"><?= $content ?></div>
     </div>
 </div>
-
 <footer class="main-footer">
     <div class="container">
         <div class="main-footer__copyright">
             <p>© 2019, «Дела в порядке»</p>
-
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
-
-        <a class="main-footer__button button button--plus" href="pages/form-task.html">Добавить задачу</a>
-
+        <?php if (isset($_SESSION["user"]["id"])): ?>
+            <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
+        <?php endif; ?>
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
             <a class="social__link social__link--facebook" href="#">
@@ -84,19 +87,15 @@
                 </svg>
             </a>
         </div>
-
         <div class="main-footer__developed-by">
             <span class="visually-hidden">Разработано:</span>
-
             <a href="https://htmlacademy.ru/intensive/php">
                 <img src="img/htmlacademy.svg" alt="HTML Academy" width="118" height="40">
             </a>
         </div>
     </div>
 </footer>
-
 <script src="flatpickr.js"></script>
 <script src="script.js"></script>
 </body>
-
 </html>
