@@ -111,7 +111,7 @@ function get_tasks($connection, $user_id)
 
     $error_message = "";
     $tasks = [];
-    $sql = "SELECT * FROM project LEFT JOIN task ON task.project_id=project.id WHERE project.user_id=$user_id $sub_query";
+    $sql = "SELECT * FROM project LEFT JOIN task ON task.project_id=project.id WHERE project.user_id=$user_id $sub_query AND task.project_id IS NOT NULL";
     $result = mysqli_query($connection, $sql);
     if (!$result) {
         $error_message = "Ничего не найдено по вашему запросу ";

@@ -66,7 +66,7 @@
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="<?= $task['id'] ?>"
-                               data-project="<?= $project_id ?>">
+                               data-project="<?= $project_id ?>" <?= $task['status'] === '1' ? 'checked' : '' ?>>
                         <span class="checkbox__text"><?= htmlspecialchars($task['name']) ?></span>
                     </label>
                 </td>
